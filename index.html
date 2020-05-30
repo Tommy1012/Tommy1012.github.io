@@ -55,8 +55,6 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
-	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -111,8 +109,6 @@
 			
 				
 			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -133,9 +129,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -207,7 +201,7 @@
 <li>最后调用collect函数toList，将管道流转换为List返回</li>
 </ul>
 <p>最终的输出结果是：[LEMUR, LION]。大家可以想一想，上面的这些对数组进行遍历的代码，如果你用for循环来写，需要写多少行代码?</p>
-<h5 id="1-filter与谓语逻辑"><a href="#1-filter与谓语逻辑" class="headerlink" title="1)filter与谓语逻辑"></a>1)filter与谓语逻辑</h5><p>filter的官方定义如下：<br>![image-20200520143618245](/Users/chengkai/Library/Application Support/typora-user-images/image-20200520143618245.png)</p>
+<h5 id="1-filter与谓语逻辑"><a href="#1-filter与谓语逻辑" class="headerlink" title="1)filter与谓语逻辑"></a>1)filter与谓语逻辑</h5><p>filter的官方定义如下：<br><img src="/images/image-20200520143618245.png" alt="image-20200520143618245"></p>
 <p>方法说明翻译为：返回一个流，该流包含与给定谓词匹配的该流的元素。由此得知：filter的起过滤作用。过滤的条件为谓词匹配。关于过滤作用我们可以看下面一个例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出年龄大于70岁的男性用户</span></span><br><span class="line">List&lt;User&gt; filtered = users.stream()</span><br><span class="line">                .filter(e -&gt; e.getAge() &gt; <span class="number">70</span> &amp;&amp; e.getGender().equals(<span class="string">"Man"</span>))</span><br><span class="line">                .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
 
@@ -218,7 +212,7 @@
 <h5 id="2-map操作"><a href="#2-map操作" class="headerlink" title="2)map操作"></a>2)map操作</h5><p>Stream提供的map函数不仅可以处理数据、还可以转换数据(对象数据格式装换)的类型、其中当函数没有返回值或者参数就是返回值的时候可以使用peek函数、处理二位数组可以用flatMap。</p>
 <h5 id="3-状态与并行操作"><a href="#3-状态与并行操作" class="headerlink" title="3)状态与并行操作"></a>3)状态与并行操作</h5><p>Stream还提供了一些对状态的操作的方法，之前我们提到的ilter与map操作，还提供了sorted排序操作、distinct去重操作、limit和skip截取操作、Sorted排序。对于大数据量的情况想要提升运行速度，Stream提供了parallel()函数表示对管道中的元素进行并行处理。通常情况下，parallel()能够很好的利用CPU的多核处理器，达到更好的执行效率和性能，建议使用。但是有些特殊的情况下，parallel并不适。</p>
 <h5 id="4-Comparator接口与函数式接口"><a href="#4-Comparator接口与函数式接口" class="headerlink" title="4)Comparator接口与函数式接口"></a>4)Comparator接口与函数式接口</h5><p>说到Comparator接口就要引出一个概念，函数式接口。所谓的函数式接口，实际上就是接口里面<strong>只能有一个抽象方法的接口</strong>。我们用到的Comparator接口就是一个典型的函数式接口，它只有一个抽象方法compare。</p>
-<p>![image-20200529162918058](/Users/chengkai/Library/Application Support/typora-user-images/image-20200529162918058.png)</p>
+<p><img src="/images/image-20200529162918058.png" alt="image-20200529162918058"></p>
 <p>如图：函数式接口的特点为：</p>
 <ul>
 <li><p>接口有且仅有一个抽象方法，如上图的抽象方法compare</p>
@@ -489,7 +483,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+              <a href="http://lsxcpp.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>CPP手艺人</a>
             </li>
           
         </ul>
