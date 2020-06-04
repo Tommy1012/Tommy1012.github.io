@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Lambda与Stream-API | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下">
+  <meta name="description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下两段代码，很">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lambda与Stream-API">
 <meta property="og:url" content="http://yoursite.com/2020/05/30/Lambda%E4%B8%8EStream-API/index.html">
 <meta property="og:site_name" content="Tommy的博客">
-<meta property="og:description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下">
+<meta property="og:description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下两段代码，很">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://cdn.zimug.com/javaStream1-2.jpg">
 <meta property="og:image" content="http://yoursite.com/images/image-20200520143618245.png">
 <meta property="og:image" content="http://yoursite.com/images/image-20200529162918058.png">
 <meta property="article:published_time" content="2020-05-30T06:15:40.000Z">
-<meta property="article:modified_time" content="2020-06-04T02:53:38.140Z">
+<meta property="article:modified_time" content="2020-06-04T02:54:37.940Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -174,12 +174,6 @@
     <div class="article-entry" itemprop="articleBody">
       
         <a id="more"></a>
-
-<!-- toc -->
-
-
-
-<!-- tocstop -->
 
 <h4><span id="一-lambda与函数式编程">一、Lambda与函数式编程</span></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
 <p>看如下两段代码，很清晰的说明了lambda表达式是表达接口函数的实现。在传统的开发中，我们习惯所有的行为定义代码都封装在方法体内，并通过对象引用执行，就像使用下面的代码：</p>
