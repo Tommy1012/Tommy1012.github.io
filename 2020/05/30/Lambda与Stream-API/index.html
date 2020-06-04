@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Lambda与Stream-API | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下两段代码，很">
+  <meta name="description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lambda与Stream-API">
 <meta property="og:url" content="http://yoursite.com/2020/05/30/Lambda%E4%B8%8EStream-API/index.html">
 <meta property="og:site_name" content="Tommy的博客">
-<meta property="og:description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。 看如下两段代码，很">
+<meta property="og:description" content="一、Lambda与函数式编程​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://cdn.zimug.com/javaStream1-2.jpg">
 <meta property="og:image" content="http://yoursite.com/images/image-20200520143618245.png">
 <meta property="og:image" content="http://yoursite.com/images/image-20200529162918058.png">
 <meta property="article:published_time" content="2020-05-30T06:15:40.000Z">
-<meta property="article:modified_time" content="2020-06-04T02:54:37.940Z">
+<meta property="article:modified_time" content="2020-06-04T03:03:12.474Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -173,9 +173,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <h4><span id="一-lambda与函数式编程">一、Lambda与函数式编程</span></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
+<a id="more"></a>
 
-<h4><span id="一-lambda与函数式编程">一、Lambda与函数式编程</span></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
 <p>看如下两段代码，很清晰的说明了lambda表达式是表达接口函数的实现。在传统的开发中，我们习惯所有的行为定义代码都封装在方法体内，并通过对象引用执行，就像使用下面的代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LambdaDemo</span> </span>&#123;</span><br><span class="line">    <span class="comment">//函数定义</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printSomething</span><span class="params">(String something)</span> </span>&#123;</span><br><span class="line">        System.out.println(something);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过创建对象调用函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LambdaDemo demo = <span class="keyword">new</span> LambdaDemo();</span><br><span class="line">        String something = <span class="string">"I am learning Lambda"</span>;</span><br><span class="line">        demo.printSomething(something);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -402,6 +402,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Lambda与函数式编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Stream-API</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.1.</span> <span class="toc-text">1)filter与谓语逻辑</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.2.</span> <span class="toc-text">2)map操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.3.</span> <span class="toc-text">3)状态与并行操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.4.</span> <span class="toc-text">4)Comparator接口与函数式接口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.5.</span> <span class="toc-text">5)reduce与集合元素规约</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.6.</span> <span class="toc-text">6)forEach和终端操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.7.</span> <span class="toc-text">7)Stream的性能</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
