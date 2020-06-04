@@ -173,7 +173,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4><span id="一-lambda与函数式编程">一、Lambda与函数式编程</span></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
+        <h4><span id="yi-lambda-yu-han-shu-shi-bian-cheng">一、Lambda与函数式编程</span><a href="#yi-lambda-yu-han-shu-shi-bian-cheng" class="header-anchor">#</a></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
 <a id="more"></a>
 
 <p>看如下两段代码，很清晰的说明了lambda表达式是表达接口函数的实现。在传统的开发中，我们习惯所有的行为定义代码都封装在方法体内，并通过对象引用执行，就像使用下面的代码：</p>
@@ -195,7 +195,7 @@
 </li>
 </ul>
 <p>lambda表达式表达的是接口函数，箭头左侧是函数参数，箭头右侧是函数体。函数的参数类型和返回值类型都可以省略，程序会根据接口定义的上下文自动确定数据类型。如果将java8 Stream API结合lambda表达式使用，编码效率将会大幅度提高！下面介绍Stream-API。</p>
-<h4><span id="二-stream-api">二、Stream-API</span></h4><p>Java Stream函数式编程接口在Java 8中引入，与Lambda使用极大的方便了集合类数据处理的效率。Java Stream就是一个数据流经的管道，并且在管道中对数据进行操作，然后流入下一个管道。管道的功能包括：Filter（过滤）、Map(映射)、sort(排序）等，集合数据通过Java Stream管道处理之后，转化为另一组集合或数据输出。可以处理的对象有数组、集合类、文本文件。具体示意如下图所示：</p>
+<h4><span id="er-stream-api">二、Stream-API</span><a href="#er-stream-api" class="header-anchor">#</a></h4><p>Java Stream函数式编程接口在Java 8中引入，与Lambda使用极大的方便了集合类数据处理的效率。Java Stream就是一个数据流经的管道，并且在管道中对数据进行操作，然后流入下一个管道。管道的功能包括：Filter（过滤）、Map(映射)、sort(排序）等，集合数据通过Java Stream管道处理之后，转化为另一组集合或数据输出。可以处理的对象有数组、集合类、文本文件。具体示意如下图所示：</p>
 <p><img src="http://cdn.zimug.com/javaStream1-2.jpg" alt="Java Stream函数式编程？用过都说好，案例图文详解送给你"></p>
 <p>我们可以先看一个 Stream API代替for循环的例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; nameStrs = Arrays.asList(<span class="string">"zhangsan"</span>, <span class="string">"lisi"</span>, <span class="string">"wangwu"</span>,<span class="string">"zhaoliu"</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; list = nameStrs.stream()</span><br><span class="line">        .filter(s -&gt; s.startsWith(<span class="string">"L"</span>))</span><br><span class="line">        .map(String::toUpperCase)</span><br><span class="line">        .sorted()</span><br><span class="line">        .collect(toList());</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
@@ -210,7 +210,7 @@
 <li>最后调用collect函数toList，将管道流转换为List返回</li>
 </ul>
 <p>最终的输出结果是：[LEMUR, LION]。大家可以想一想，上面的这些对数组进行遍历的代码，如果你用for循环来写，需要写多少行代码?</p>
-<h5><span id="1filter与谓语逻辑">1)filter与谓语逻辑</span></h5><p>filter的官方定义如下：<br><img src="/images/image-20200520143618245.png" alt="image-20200520143618245"></p>
+<h5><span id="1-filter-yu-wei-yu-luo-ji">1)filter与谓语逻辑</span><a href="#1-filter-yu-wei-yu-luo-ji" class="header-anchor">#</a></h5><p>filter的官方定义如下：<br><img src="/images/image-20200520143618245.png" alt="image-20200520143618245"></p>
 <p>方法说明翻译为：返回一个流，该流包含与给定谓词匹配的该流的元素。由此得知：filter的起过滤作用。过滤的条件为谓词匹配。关于过滤作用我们可以看下面一个例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//取出年龄大于70岁的男性用户</span></span><br><span class="line">List&lt;User&gt; filtered = users.stream()</span><br><span class="line">                .filter(e -&gt; e.getAge() &gt; <span class="number">70</span> &amp;&amp; e.getGender().equals(<span class="string">"Man"</span>))</span><br><span class="line">                .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
 
@@ -218,9 +218,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Predicate&lt;Employee&gt; getOldEmp = one -&gt; one.getAge()&gt;<span class="number">70</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Predicate&lt;Employee&gt; getMEmp = emp -&gt; emp.getGender().equals(<span class="string">"M"</span>);</span><br></pre></td></tr></table></figure>
 
 <p>上图就是将谓语逻辑的体现。谓语逻辑主要解决的问题是”做什么“、”是什么“或者是”怎么样“。通常情况下，filter函数中lambda表达式为一次性使用的谓词逻辑。如果我们的谓词逻辑需要被多处、多场景、多代码中使用，通常将它抽取出来单独定义到它所限定的主语实体中(如上)。其中谓语逻辑还提供了 and(并集)、or(交集)、negate(取反)语法。</p>
-<h5><span id="2map操作">2)map操作</span></h5><p>Stream提供的map函数不仅可以处理数据、还可以转换数据(对象数据格式装换)的类型、其中当函数没有返回值或者参数就是返回值的时候可以使用peek函数、处理二位数组可以用flatMap。</p>
-<h5><span id="3状态与并行操作">3)状态与并行操作</span></h5><p>Stream还提供了一些对状态的操作的方法，之前我们提到的ilter与map操作，还提供了sorted排序操作、distinct去重操作、limit和skip截取操作、Sorted排序。对于大数据量的情况想要提升运行速度，Stream提供了parallel()函数表示对管道中的元素进行并行处理。通常情况下，parallel()能够很好的利用CPU的多核处理器，达到更好的执行效率和性能，建议使用。但是有些特殊的情况下，parallel并不适。</p>
-<h5><span id="4comparator接口与函数式接口">4)Comparator接口与函数式接口</span></h5><p>说到Comparator接口就要引出一个概念，函数式接口。所谓的函数式接口，实际上就是接口里面<strong>只能有一个抽象方法的接口</strong>。我们用到的Comparator接口就是一个典型的函数式接口，它只有一个抽象方法compare。</p>
+<h5><span id="2-map-cao-zuo">2)map操作</span><a href="#2-map-cao-zuo" class="header-anchor">#</a></h5><p>Stream提供的map函数不仅可以处理数据、还可以转换数据(对象数据格式装换)的类型、其中当函数没有返回值或者参数就是返回值的时候可以使用peek函数、处理二位数组可以用flatMap。</p>
+<h5><span id="3-zhuang-tai-yu-bing-xing-cao-zuo">3)状态与并行操作</span><a href="#3-zhuang-tai-yu-bing-xing-cao-zuo" class="header-anchor">#</a></h5><p>Stream还提供了一些对状态的操作的方法，之前我们提到的ilter与map操作，还提供了sorted排序操作、distinct去重操作、limit和skip截取操作、Sorted排序。对于大数据量的情况想要提升运行速度，Stream提供了parallel()函数表示对管道中的元素进行并行处理。通常情况下，parallel()能够很好的利用CPU的多核处理器，达到更好的执行效率和性能，建议使用。但是有些特殊的情况下，parallel并不适。</p>
+<h5><span id="4-comparator-jie-kou-yu-han-shu-shi-jie-kou">4)Comparator接口与函数式接口</span><a href="#4-comparator-jie-kou-yu-han-shu-shi-jie-kou" class="header-anchor">#</a></h5><p>说到Comparator接口就要引出一个概念，函数式接口。所谓的函数式接口，实际上就是接口里面<strong>只能有一个抽象方法的接口</strong>。我们用到的Comparator接口就是一个典型的函数式接口，它只有一个抽象方法compare。</p>
 <p><img src="/images/image-20200529162918058.png" alt="image-20200529162918058"></p>
 <p>如图：函数式接口的特点为：</p>
 <ul>
@@ -237,20 +237,20 @@
 </ul>
 <p>函数式接口是专门为lambda表达式准备的，<strong>lambda表达式是只实现接口中唯一的抽象方法的匿名实现类</strong>。</p>
 <p>JDK中的其他的函数式接口有：java.lang.Runnable、java.util.Comparator、java.util.concurrent.Callable、java.util.function包下的接口，如Consumer、Predicate、Supplier等</p>
-<h5><span id="5reduce与集合元素规约">5)reduce与集合元素规约</span></h5><p>Stream API为我们提供了<code>Stream.reduce</code>用来实现集合元素的归约。reduce函数有三个参数：</p>
+<h5><span id="5-reduce-yu-ji-he-yuan-su-gui-yue">5)reduce与集合元素规约</span><a href="#5-reduce-yu-ji-he-yuan-su-gui-yue" class="header-anchor">#</a></h5><p>Stream API为我们提供了<code>Stream.reduce</code>用来实现集合元素的归约。reduce函数有三个参数：</p>
 <ul>
 <li><em>Identity标识</em>：一个元素，它是归约操作的初始值，如果流为空，则为默认结果。</li>
 <li><em>Accumulator累加器</em>：具有两个参数的函数：归约运算的部分结果和流的下一个元素。</li>
 <li><em>Combiner合并器（可选）</em>：当归约并行化时，或当累加器参数的类型与累加器实现的类型不匹配时，用于合并归约操作的部分结果的函数。</li>
 </ul>
-<h5><span id="6foreach和终端操作">6)forEach和终端操作</span></h5><p>Stream提供了我们对于集合的终端操作，如收集为Set、收集为List、收集到Array、收集为Map、分组收集groupingBy。</p>
+<h5><span id="6-foreach-he-zhong-duan-cao-zuo">6)forEach和终端操作</span><a href="#6-foreach-he-zhong-duan-cao-zuo" class="header-anchor">#</a></h5><p>Stream提供了我们对于集合的终端操作，如收集为Set、收集为List、收集到Array、收集为Map、分组收集groupingBy。</p>
 <p>我们可以看下面两个例子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将 Employee List 转换为 id-Employee 的map</span></span><br><span class="line">Map&lt;Integer,Employee&gt; mapNameEmp = empList.stream().collect(Collectors.toMap(Employee::getId, Employee-&gt;Employee,(k1,k2)-&gt;k1));</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将用户按照性别分组</span></span><br><span class="line">Map&lt;String,List&lt;Employee&gt;&gt; result = empList.stream().collect(Collectors.groupingBy(Employee :: getGender));</span><br><span class="line">System.out.println(JSON.toJSONString(result));</span><br></pre></td></tr></table></figure>
 
 <p>第一个例子举例了我们的常用操作list转map,第二个例子举例了groupingBy的使用。</p>
-<h5><span id="7stream的性能">7)Stream的性能</span></h5><p>问：stream比for循环慢5倍，用这个是为了啥？<br>答：互联网是一个新闻泛滥的时代，三人成虎，以假乱真的事情时候发生。作为一个技术开发者，要自己去动手去做，不要人云亦云。</p>
+<h5><span id="7-stream-de-xing-neng">7)Stream的性能</span><a href="#7-stream-de-xing-neng" class="header-anchor">#</a></h5><p>问：stream比for循环慢5倍，用这个是为了啥？<br>答：互联网是一个新闻泛滥的时代，三人成虎，以假乱真的事情时候发生。作为一个技术开发者，要自己去动手去做，不要人云亦云。</p>
 <p>性能测试脱离业务场景就是片面的性能测试，只有你在生产环境下的运行结果才是真的。我们可以动手测试用Junit来测试 Stream的性能。</p>
 <p>*<em>测试用例一 *</em></p>
 <p>测试用例：5亿个int随机数，求最小值<br>测试结论：</p>
