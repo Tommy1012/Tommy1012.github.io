@@ -171,6 +171,33 @@
         
       </header>
     
+    <!-- 目录内容 -->
+
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+    <div id="toc-article" class="toc-article">
+        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+        <strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Lambda与函数式编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Stream-API</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.1.</span> <span class="toc-text">1)filter与谓语逻辑</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.2.</span> <span class="toc-text">2)map操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.3.</span> <span class="toc-text">3)状态与并行操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.4.</span> <span class="toc-text">4)Comparator接口与函数式接口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.5.</span> <span class="toc-text">5)reduce与集合元素规约</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.6.</span> <span class="toc-text">6)forEach和终端操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-number">2.7.</span> <span class="toc-text">7)Stream的性能</span></a></li></ol></li></ol>
+         </div>
+   <script type="text/javascript">
+    function showToc(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:block");
+        show_toc_btn.setAttribute("style","display:none");
+        };
+    function showBtn(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:none");
+        show_toc_btn.setAttribute("style","display:block");
+        };
+   </script>
+      
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <h4><span id="yi-lambda-yu-han-shu-shi-bian-cheng">一、Lambda与函数式编程</span><a href="#yi-lambda-yu-han-shu-shi-bian-cheng" class="header-anchor">#</a></h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
