@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tommy的博客</title>
+  <title>JCF-什么是List | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tommy的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="[toc] 上一篇文章概要介绍Collection之后，我们对List的了解是：List是存有序(插入顺序)、允许存相同元素的 Collection。能够精确控制每个元素的插入位置，通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素。通过这篇文章我们来详细回顾List接口以及实现类，我们可以了解到以下几点：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JCF-什么是List">
+<meta property="og:url" content="http://yoursite.com/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/index.html">
 <meta property="og:site_name" content="Tommy的博客">
+<meta property="og:description" content="[toc] 上一篇文章概要介绍Collection之后，我们对List的了解是：List是存有序(插入顺序)、允许存相同元素的 Collection。能够精确控制每个元素的插入位置，通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素。通过这篇文章我们来详细回顾List接口以及实现类，我们可以了解到以下几点：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/List.png">
+<meta property="og:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/ArrayList_base.png">
+<meta property="og:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/LinkedList_base.png">
+<meta property="og:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/LinkedList_add.png">
+<meta property="og:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/LinkedList_remove.png">
+<meta property="article:published_time" content="2020-06-04T06:33:40.000Z">
+<meta property="article:modified_time" content="2020-06-06T12:24:01.054Z">
 <meta property="article:author" content="tommy">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/Users/chengkai/study/hexo/blog/source/images/List.png">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -147,16 +158,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-JCF-什么是List" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-JCF-什么是List" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/">JCF-什么是List</a>
+    <h1 class="article-title" itemprop="name">
+      JCF-什么是List
     </h1>
   
 
@@ -169,14 +178,140 @@
     
     <!-- 目录内容 -->
 
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+    <div id="toc-article" class="toc-article">
+        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+        <strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、List概要</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">官方描述：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.2.</span> <span class="toc-text">List继承和实现关系：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、List主要实现类讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">ArrayList：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">Vector：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.3.</span> <span class="toc-text">LinkedList：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、多线程场景下的使用</span></a></li></ol>
+         </div>
+   <script type="text/javascript">
+    function showToc(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:block");
+        show_toc_btn.setAttribute("style","display:none");
+        };
+    function showBtn(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:none");
+        show_toc_btn.setAttribute("style","display:block");
+        };
+   </script>
+      
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
 <p>上一篇文章概要介绍Collection之后，我们对List的了解是：List是存有序(插入顺序)、允许存相同元素的 Collection。能够精确控制每个元素的插入位置，通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素。通过这篇文章我们来详细回顾List接口以及实现类，我们可以了解到以下几点：</p>
-        
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/#more">more >></a>
-        
+<a id="more"></a>
+
+<ul>
+<li><p>List接口概要和主要(特有)方法</p>
+</li>
+<li><p>ArrayList， LinkedList和Vector主要功能、使用场景以及源码实现</p>
+</li>
+<li><p>多线程并发情况下如何使用List</p>
+</li>
+<li><p>List使用坑点</p>
+</li>
+</ul>
+<h4><span id="一-list概要">一、List概要</span></h4><h6><span id="官方描述">官方描述：</span></h6><p>首先我们还是来看下JDK1.8对List的官方描述：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An ordered collection (also known as a &lt;i&gt;sequence&lt;/i&gt;).  The user of this</span></span><br><span class="line"><span class="comment"> * interface has precise control over where in the list each element is</span></span><br><span class="line"><span class="comment"> * inserted.  The user can access elements by their integer index (position in</span></span><br><span class="line"><span class="comment"> * the list), and search for elements in the list.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  有序集合(也称为序列)。这个接口的使用可以精确控制到List中每个元素的插入位置。用户可以通过其整数索引</span></span><br><span class="line"><span class="comment"> *  (List中的位置)，然后在列表中搜索元素。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unlike sets, lists typically allow duplicate elements.  More formally,</span></span><br><span class="line"><span class="comment"> * lists typically allow pairs of elements &lt;tt&gt;e1&lt;/tt&gt; and &lt;tt&gt;e2&lt;/tt&gt;</span></span><br><span class="line"><span class="comment"> * such that &lt;tt&gt;e1.equals(e2)&lt;/tt&gt;, and they typically allow multiple</span></span><br><span class="line"><span class="comment"> * null elements if they allow null elements at all.  It is not inconceivable</span></span><br><span class="line"><span class="comment"> * that someone might wish to implement a list that prohibits duplicates, by</span></span><br><span class="line"><span class="comment"> * throwing runtime exceptions when the user attempts to insert them, but we</span></span><br><span class="line"><span class="comment"> * expect this usage to be rare.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 与set不同，列表通常允许重复的元素。更正式来说，lists通常允许元素对e1和e2</span></span><br><span class="line"><span class="comment"> * 比较如e1.equals（e2），它们通常允许多个null元素（如果它们完全允许使用null元素）。并非不可能</span></span><br><span class="line"><span class="comment"> * 有人希望通过在用户尝试插入运行时异常时抛出运行时异常来实现禁止重复的列表，但是我们希望这种用法很少见。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The &lt;tt&gt;List&lt;/tt&gt; interface places additional stipulations, beyond those</span></span><br><span class="line"><span class="comment"> * specified in the &lt;tt&gt;Collection&lt;/tt&gt; interface, on the contracts of the</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;iterator&lt;/tt&gt;, &lt;tt&gt;add&lt;/tt&gt;, &lt;tt&gt;remove&lt;/tt&gt;, &lt;tt&gt;equals&lt;/tt&gt;, and</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;hashCode&lt;/tt&gt; methods.  Declarations for other inherited methods are</span></span><br><span class="line"><span class="comment"> * also included here for convenience.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  List除了在继承Collection接口上的iterator，add，remove，equals和hashCode方法外。还提供额外的约定，</span></span><br><span class="line"><span class="comment"> *  其他继承方法的声明是为方便起见也包括在这里。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The &lt;tt&gt;List&lt;/tt&gt; interface provides four methods for positional (indexed)</span></span><br><span class="line"><span class="comment"> * access to list elements.  Lists (like Java arrays) are zero based.  Note</span></span><br><span class="line"><span class="comment"> * that these operations may execute in time proportional to the index value</span></span><br><span class="line"><span class="comment"> * for some implementations (the &lt;tt&gt;LinkedList&lt;/tt&gt; class, for</span></span><br><span class="line"><span class="comment"> * example). Thus, iterating over the elements in a list is typically</span></span><br><span class="line"><span class="comment"> * preferable to indexing through it if the caller does not know the</span></span><br><span class="line"><span class="comment"> * implementation.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * List接口提供四种位置（索引）访问列表元素的方法。 列表（如Java数组）从零开始。</span></span><br><span class="line"><span class="comment"> * 请注意，这些操作可能会按与索引值成比例的时间执行对于某些实现（如 LinkedList ）。</span></span><br><span class="line"><span class="comment"> * 因此，如果调用者不知道实现，则通过迭代列表中的元素通常优先于索引。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The &lt;tt&gt;List&lt;/tt&gt; interface provides a special iterator, called a</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;ListIterator&lt;/tt&gt;, that allows element insertion and replacement, and</span></span><br><span class="line"><span class="comment"> * bidirectional access in addition to the normal operations that the</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;Iterator&lt;/tt&gt; interface provides.  A method is provided to obtain a</span></span><br><span class="line"><span class="comment"> * list iterator that starts at a specified position in the list.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * List接口提供了一个特殊的迭代器，称为ListIterator，其允许元素插入和更换，</span></span><br><span class="line"><span class="comment"> * 以及Iterator接口提供的常规操作之外的双向访问。提供了一种获取列表迭代器的方法，</span></span><br><span class="line"><span class="comment"> * 该列表迭代器从列表中的指定位置开始。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The &lt;tt&gt;List&lt;/tt&gt; interface provides two methods to search for a specified</span></span><br><span class="line"><span class="comment"> * object.  From a performance standpoint, these methods should be used with</span></span><br><span class="line"><span class="comment"> * caution.  In many implementations they will perform costly linear</span></span><br><span class="line"><span class="comment"> * searches.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * List接口提供了两种方法来搜索指定的对象。 从性能角度来说，谨慎使用这些方法。 在许多实现中，它们将执行昂贵的线性搜索。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The &lt;tt&gt;List&lt;/tt&gt; interface provides two methods to efficiently insert and</span></span><br><span class="line"><span class="comment"> * remove multiple elements at an arbitrary point in the list.&lt;p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * List接口提供了两种方法来有效地插入和删除列表中任意一点的多个元素</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Note: While it is permissible for lists to contain themselves as elements,</span></span><br><span class="line"><span class="comment"> * extreme caution is advised: the &lt;tt&gt;equals&lt;/tt&gt; and &lt;tt&gt;hashCode&lt;/tt&gt;</span></span><br><span class="line"><span class="comment"> * methods are no longer well defined on such a list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 注意：虽然list允许将其自身作为元素，但建议您非常小心： equals和hashCode方法在这样的列表中不再被很好地定义。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Some list implementations have restrictions on the elements that</span></span><br><span class="line"><span class="comment"> * they may contain.  For example, some implementations prohibit null elements,</span></span><br><span class="line"><span class="comment"> * and some have restrictions on the types of their elements.  Attempting to</span></span><br><span class="line"><span class="comment"> * add an ineligible element throws an unchecked exception, typically</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;NullPointerException&lt;/tt&gt; or &lt;tt&gt;ClassCastException&lt;/tt&gt;.  Attempting</span></span><br><span class="line"><span class="comment"> * to query the presence of an ineligible element may throw an exception,</span></span><br><span class="line"><span class="comment"> * or it may simply return false; some implementations will exhibit the former</span></span><br><span class="line"><span class="comment"> * behavior and some will exhibit the latter.  More generally, attempting an</span></span><br><span class="line"><span class="comment"> * operation on an ineligible element whose completion would not result in</span></span><br><span class="line"><span class="comment"> * the insertion of an ineligible element into the list may throw an</span></span><br><span class="line"><span class="comment"> * exception or it may succeed, at the option of the implementation.</span></span><br><span class="line"><span class="comment"> * Such exceptions are marked as "optional" in the specification for this</span></span><br><span class="line"><span class="comment"> * interface.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 某些list的实现对它们可能包含的元素有限制。例如，一些实现禁止空元素，有些实现对元素的类型有限制。</span></span><br><span class="line"><span class="comment"> * 尝试添加不合格元素会引发未经检查的异常，通常为NullPointerException或ClassCastException 。</span></span><br><span class="line"><span class="comment"> * 尝试查询不合格元素的存在可能会引发异常，或可能只是返回false;一些实现将展现出前者的行为，</span></span><br><span class="line"><span class="comment"> * 一些实现将展现出后者。更一般地，尝试对不合格元素进行的操作（其完成不会导致将不合格元素插入列表中）</span></span><br><span class="line"><span class="comment"> * 可能会引发异常，也可能会成功，具体取决于实现方式。此异常在此接口的规范中标记为“可选”。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的描述阐述了List和Set的区别。List允许存储项的值为空，也允许存储相等值的存储项，还举了e1.equal(e2)的例子。List是除了继承Collection接口中通用的方法以外，还扩展了部分只属于List的方法。List增加了方法是add（int，Object）和addAll（int，Collection），他们的作用是可以在指定的下标处插入元素。</p>
+<h6><span id="list继承和实现关系">List继承和实现关系：</span></h6><img src="/Users/chengkai/study/hexo/blog/source/images/List.png" alt="List" style="zoom: 67%;">
+
+<p>从上图可以看出，List最主要的实现类ArrayList和LinkedList分别继承于AbstarList和AbstractSequentialList。</p>
+<p>AbstractList也只是实现了List接口部分的方法，和AbstractCollection是一个思路，遵循接口隔离原则(无须给客户</p>
+<p>端暴露不需要的方法)。而AbstractSequentialList是为实现序列访问的数据接口提供的最小化接口实现，可以理解</p>
+<p>成他是一个顺序相连的list。</p>
+<h4><span id="二-list主要实现类讲解">二、List主要实现类讲解</span></h4><p>List实现类中我们常用的实现类有 ArrayList、Vector和LinkedList。下面我们来分别分析对应实现类：</p>
+<h6><span id="arraylist">ArrayList：</span></h6><p>​    <strong>概述：</strong>（来自官方文档描述）</p>
+<p>​    1. <em>ArrayList</em>实现了<em>List</em>接口，是顺序容器，即元素存放的数据与放进去的顺序相同，允许放入<code>null</code>元素，底层通</p>
+<p>过<strong>数组实现</strong>。准确的说，是动态数组，和java中的数组相比，他的容量是能动态增长的。除该类未实现同步外，其</p>
+<p>余跟<em>Vector</em>大致相同。这里注意的是：为追求效率，ArrayList是没有实现同步（synchronized），如果需要多个</p>
+<p>线程并发访问，用户可以手动同步，也可使用Vector替代。</p>
+<p>​    2.每个<em>ArrayList</em>都有一个容量（capacity），表示底层数组的实际大小，容器内存储元素的个数不能多于当前容</p>
+<p>量。当向容器中添加元素时，如果容量不足，容器会自动增大底层数组的大小。前面已经提过，Java泛型只是编译</p>
+<p>器提供的语法糖，所以这里的数组是一个Object数组，以便能够容纳任何类型的对象。<em>ArrayList</em>容量示意如下：</p>
+<img src="/Users/chengkai/study/hexo/blog/source/images/ArrayList_base.png" alt="ArrayList_base" style="zoom:71%;">
+
+<p>​    3. <em>ArrayList</em>继承于AbstractList，实现了List，RandomAccess，Cloneable，java.io.Serializable接口，说明<em>ArrayList</em>提供了随机访问的功能，支持快速访问；覆盖函数clone()，说明能被克隆；还支持序列化。</p>
+<p>​    <strong>源码剖析：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现的三个接口说明了 ArrayList 支持随机快速范围、可以被克隆、可序列化。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">RandomAccess</span>, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Default initial capacity.</span></span><br><span class="line"><span class="comment">     * 默认的初始容量为10</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Shared empty array instance used for empty instances.</span></span><br><span class="line"><span class="comment">     * 用于空实例的共享空数组实例。</span></span><br><span class="line"><span class="comment">     * 如果使用 0 作为初始化容量的时候，ArrayList就会使用这个对象来初始化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Shared empty array instance used for default sized empty instances. We</span></span><br><span class="line"><span class="comment">     * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when</span></span><br><span class="line"><span class="comment">     * first element is added.</span></span><br><span class="line"><span class="comment">     * 空数组示例，和EMPTY_ELEMENTDATA一样，但是</span></span><br><span class="line"><span class="comment">     * 如果使用默认的构造函数的话，就会使用这个对象初始化，这是和EMPTY_ELEMENTDATA区分</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The array buffer into which the elements of the ArrayList are stored.</span></span><br><span class="line"><span class="comment">     * The capacity of the ArrayList is the length of this array buffer. Any</span></span><br><span class="line"><span class="comment">     * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA</span></span><br><span class="line"><span class="comment">     * will be expanded to DEFAULT_CAPACITY when the first element is added.</span></span><br><span class="line"><span class="comment">     * 盛装元素的容器</span></span><br><span class="line"><span class="comment">     * 存储ArrayList元素的数组缓冲区。ArrayList的容量是此数组缓冲区的长度。 任何</span></span><br><span class="line"><span class="comment">     * 具有elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA的空ArrayList</span></span><br><span class="line"><span class="comment">     * 添加第一个元素时，将扩展为DEFAULT_CAPACITY。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="comment">//transient关键字的作用是：将不需要序列化的属性前添加关键字transient，序列化对象的时候，这个属性就不会被序列化。</span></span><br><span class="line">    <span class="keyword">transient</span> Object[] elementData; <span class="comment">// non-private to simplify nested class access</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The size of the ArrayList (the number of elements it contains).</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@serial</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 有三个构造器</span></span><br><span class="line"><span class="comment">     * 上面面是两个构造器：上面一个指定容量大小的构造器</span></span><br><span class="line"><span class="comment">     * 中间是默认构造函数</span></span><br><span class="line"><span class="comment">     * 下面是指定一些元素的构造器</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructs an empty list with the specified initial capacity.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span>  initialCapacity  the initial capacity of the list</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IllegalArgumentException if the specified initial capacity</span></span><br><span class="line"><span class="comment">     *         is negative</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (initialCapacity == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructs an empty list with an initial capacity of ten.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructs a list containing the elements of the specified</span></span><br><span class="line"><span class="comment">     * collection, in the order they are returned by the collection's</span></span><br><span class="line"><span class="comment">     * iterator.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> c the collection whose elements are to be placed into this list</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> NullPointerException if the specified collection is null</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">        elementData = c.toArray();</span><br><span class="line">        <span class="keyword">if</span> ((size = elementData.length) != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">            <span class="keyword">if</span> (elementData.getClass() != Object[]<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">                <span class="title">elementData</span> </span>= Arrays.copyOf(elementData, size, Object[]<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// replace with empty array.</span></span><br><span class="line">            <span class="keyword">this</span>.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Increases the capacity of this &lt;tt&gt;ArrayList&lt;/tt&gt; instance, if</span></span><br><span class="line"><span class="comment">     * necessary, to ensure that it can hold at least the number of elements</span></span><br><span class="line"><span class="comment">     * specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span>   minCapacity   the desired minimum capacity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">       <span class="comment">/** 如果使用默认的构造参数的话，则选择minCapacity和DEFAULT_CAPACITY中较大的一个来作为最小的初始容量，</span></span><br><span class="line"><span class="comment">        大家可能奇怪，既然判断了初始化这一说，为何还会有传入的minCapacity</span></span><br><span class="line"><span class="comment">        和DEFAULT_CAPACITY比较这一说，是因为ensureCapacityInternal也会被addAll调用</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">        <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">            <span class="comment">// any size if not default element table</span></span><br><span class="line">            ? <span class="number">0</span></span><br><span class="line">            <span class="comment">// larger than default for default empty table. It's already</span></span><br><span class="line">            <span class="comment">// supposed to be at default size.</span></span><br><span class="line">            : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">            ensureExplicitCapacity(minCapacity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * The maximum size of array to allocate.</span></span><br><span class="line"><span class="comment">     * Some VMs reserve some header words in an array.</span></span><br><span class="line"><span class="comment">     * Attempts to allocate larger arrays may result in</span></span><br><span class="line"><span class="comment">     * OutOfMemoryError: Requested array size exceeds VM limit</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Increases the capacity to ensure that it can hold at least the</span></span><br><span class="line"><span class="comment">     * number of elements specified by the minimum capacity argument.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 核心的扩容代码：</span></span><br><span class="line"><span class="comment">     * 扩容后的新容量：为原来容量的1.5倍</span></span><br><span class="line"><span class="comment">     * x&gt;&gt;y 和 x&lt;&lt;y:</span></span><br><span class="line"><span class="comment">     * 首先大原则：左乘右除</span></span><br><span class="line"><span class="comment">     * 改写： x&gt;&gt;y x/(2^y)</span></span><br><span class="line"><span class="comment">     * 举例：怎样算28最快，2&lt;&lt;3即：2(2*3)</span></span><br><span class="line"><span class="comment">     * 原理：具体的原理需要去掰扯位移运算，这个大家自行百度</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> minCapacity the desired minimum capacity</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// overflow-conscious code</span></span><br><span class="line">        <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">        <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">            newCapacity = minCapacity;</span><br><span class="line">        <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">            newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">        <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">        <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">            Integer.MAX_VALUE :</span><br><span class="line">            MAX_ARRAY_SIZE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 首先看到，不过是指定index执行add操作，还是在尾部执行add操作，都会先确认当前的数组空间是否够插入数据</span></span><br><span class="line"><span class="comment">     * 并且从</span></span><br><span class="line"><span class="comment">     * int oldCapacity = elementData.length;</span></span><br><span class="line"><span class="comment">     * int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span></span><br><span class="line"><span class="comment">     * if (newCapacity - minCapacity &lt; 0)</span></span><br><span class="line"><span class="comment">     *             newCapacity = minCapacity;</span></span><br><span class="line"><span class="comment">     * 看出，ArrayList默认每次都是自增50%的大小再和minCapacity比较，如果还是不够，就把当的</span></span><br><span class="line"><span class="comment">     * size扩充至minCapacity</span></span><br><span class="line"><span class="comment">     * 然后，如果是队尾插入，也简单，就把数组向后移动一位，然后赋值</span></span><br><span class="line"><span class="comment">     * 如果是在中间插入，需要用到System.arraycopy，把index开始所有数据向后移动一位</span></span><br><span class="line"><span class="comment">     * 再进行插入</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>使用场景：</strong></p>
+<ul>
+<li>经常遍历数据</li>
+<li>插入顺序与读取顺序相同</li>
+<li>需要大量随机访问数据</li>
+<li>极少甚至没有随机插入删除操作形成v</li>
+</ul>
+<p>​    <strong>缺陷：</strong></p>
+<ul>
+<li><p>插入效率低。add(index, E) 插入元素，在第几个元素后面插入，后面的元素需要向后移动，时间复杂度O(n)。</p>
+</li>
+<li><p>根据内容查找元素的效率低，例如<code>contains(Object o)</code>、<code>indexOf(Object o)</code>，时间复杂度O(N)。</p>
+</li>
+<li><p>删除效率低。remove()删除元素，后面的元素需要逐个移动，时间复杂度O(n)。</p>
+</li>
+<li><p>线程不安全</p>
+</li>
+</ul>
+<h6><span id="vector">Vector：</span></h6><p>Vector就是ArrayList的线程安全版，它的方法前都加了synchronized锁，其他实现逻辑都相同。当然你也可以手</p>
+<p>动写现场安全的ArrayList。如果对线程安全要求不高的话，可以选择ArrayList，毕竟synchronized也很耗性能。</p>
+<h6><span id="linkedlist">LinkedList：</span></h6><p><strong>概述：</strong></p>
+<p>​    故名思意就是链表，和我们大学在数据结构里学的链表是一回事，LinkedList还是一个双向链表。<em>LinkedList</em>同</p>
+<p>时实。现了<em>List</em>接口和<em>Deque</em>接口，也就是说它既可以看作一个顺序容器，又可以看作一个队列（<em>Queue</em>），同时</p>
+<p>又可以看作一个栈（<em>Stack</em>）。这样看来，<em>LinkedList</em>简直就是个全能冠军。当你需要使用栈或者队列时，可以考虑</p>
+<p>使用<em>LinkedList</em>，一方面是因为Java官方已经声明不建议使用<em>Stack</em>类，更遗憾的是，Java里根本没有一个叫</p>
+<p>做<em>Queue的类（它是个接口名字）。关于栈或队列，现在的首选是</em>ArrayDeque<em>，它有着比</em>LinkedList*（当作栈或</p>
+<p>队列使用时）有着更好的性能。LinkedList的示意图如下图所示。</p>
+<img src="/Users/chengkai/study/hexo/blog/source/images/LinkedList_base.png" alt="LinkedList_base" style="zoom:71%;">
+
+<p><strong>底层实现：</strong></p>
+<p><em>LinkedList<em>底层*</em>通过双向链表实现*<em>，插入和删除元素时双向链表的维护过程比较重要，也即是直接跟</em>List<em>接口相关的函数。双向链表的每个节点用内部类</em>Node</em>(它的一个内部类)表示。<em>LinkedList</em>通过<code>first</code>和<code>last</code>引用分别指向链表的第一个和最后一个元素。当链表为空的时候<code>first</code>和<code>last</code>都指向<code>null</code>。</p>
+<p><strong>源码剖析：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Node内部类 用于存储元素。和C语言实现方式差不多，由于是双向链表，所以记录了next和prev，只不过把C语言里的指针换成了对象。</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    E item;</span><br><span class="line">    Node&lt;E&gt; next;</span><br><span class="line">    Node&lt;E&gt; prev;</span><br><span class="line"></span><br><span class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.item = element;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">        <span class="keyword">this</span>.prev = prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>add()</em>方法有两个版本，一个是<code>add(E e)</code>，该方法在*LinkedList*的末尾插入元素，因为有<code>last</code>指向链表末尾，在末尾插入元素的花费是常数时间。只需要简单修改几个相关引用即可；另一个是<code>add(int index, E element)</code>，该方法是在指定下表处插入元素，需要先通过线性查找找到具体位置，然后修改相关引用完成插入操作。<code>add(int index, E element)</code>的逻辑稍显复杂，可以分成两部分，1.先根据index找到要插入的位置；2.修改引用，完成插入操作。</p>
+<img src="/Users/chengkai/study/hexo/blog/source/images/LinkedList_add.png" alt="LinkedList_add" style="zoom:71%;">
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This method is equivalent to &#123;<span class="doctag">@link</span> #addLast&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 学过数据结构的同学看这部分代码特别轻松</span></span><br><span class="line"><span class="comment"> * 首先来看下void linkLast(E e)，尾部插入</span></span><br><span class="line"><span class="comment"> * 就是把newNode的前面节点执行现在的尾部节点，newNode的后面节点执行null,因为是在尾部嘛</span></span><br><span class="line"><span class="comment"> * 然后把现在的尾部节点的后面节点指向newNode,因为现在的尾部节点不是最后一个了</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * 然后再来看下中间插入</span></span><br><span class="line"><span class="comment"> * 也是一个套路。假设现在在3号位插入一个newNode</span></span><br><span class="line"><span class="comment"> * 就是通过现在的3号Node的prev找到2号节点，然后修改2号节点的next，指向nowNode</span></span><br><span class="line"><span class="comment"> * 然后nowNode的prev指向2号节点，next指向3号节点</span></span><br><span class="line"><span class="comment"> * 最后3号节点的prev变成了nowNode,next不变</span></span><br><span class="line"><span class="comment"> * 这样就完成了一次中间插入  </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be appended to this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    linkLast(e);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Inserts the specified element at the specified position in this list.</span></span><br><span class="line"><span class="comment">     * Shifts the element currently at that position (if any) and any</span></span><br><span class="line"><span class="comment">     * subsequent elements to the right (adds one to their indices).</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> index index at which the specified element is to be inserted</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> element element to be inserted</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">  checkPositionIndex(index);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (index == size)</span><br><span class="line">    linkLast(element);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    linkBefore(element, node(index));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Links e as last element.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; l = last;</span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>);</span><br><span class="line">  last = newNode;</span><br><span class="line">  <span class="keyword">if</span> (l == <span class="keyword">null</span>)</span><br><span class="line">    first = newNode;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    l.next = newNode;</span><br><span class="line">  size++;</span><br><span class="line">  modCount++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Inserts element e before non-null Node succ.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkBefore</span><span class="params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// assert succ != null;</span></span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; pred = succ.prev;</span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, succ);</span><br><span class="line">  succ.prev = newNode;</span><br><span class="line">  <span class="keyword">if</span> (pred == <span class="keyword">null</span>)</span><br><span class="line">    first = newNode;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    pred.next = newNode;</span><br><span class="line">  size++;</span><br><span class="line">  modCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>remove()</code>方法也有两个版本，一个是删除跟指定元素相等的第一个元素<code>remove(Object o)</code>，另一个是删除指定下标处的元素<code>remove(int index)</code>。</p>
+<p>两个删除操作都要1.先找到要删除元素的引用，2.修改相关引用，完成删除操作。在寻找被删元素引用的时候<code>remove(Object o)</code>调用的是元素的<code>equals</code>方法，而<code>remove(int index)</code>使用的是下标计数，两种方式都是线性时间复杂度。在步骤2中，两个<code>remove()</code>方法都是通过<code>unlink(Node x)</code>方法完成的。这里需要考虑删除元素是第一个或者最后一个时的边界情况。</p>
+<img src="/Users/chengkai/study/hexo/blog/source/images/LinkedList_remove.png" alt="LinkedList_remove" style="zoom:71%;">
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Removes the first occurrence of the specified element from this list,</span></span><br><span class="line"><span class="comment"> * if it is present.  If this list does not contain the element, it is</span></span><br><span class="line"><span class="comment"> * unchanged.  More formally, removes the element with the lowest index</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> i&#125; such that</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;</span></span><br><span class="line"><span class="comment"> * (if such an element exists).  Returns &#123;<span class="doctag">@code</span> true&#125; if this list</span></span><br><span class="line"><span class="comment"> * contained the specified element (or equivalently, if this list</span></span><br><span class="line"><span class="comment"> * changed as a result of the call).</span></span><br><span class="line"><span class="comment"> * 如果直接调无参的remove(),就会默认删除头节点</span></span><br><span class="line"><span class="comment"> * 删除头节点非常简单，就是把头节点的值清空，next清空</span></span><br><span class="line"><span class="comment"> * 然后把nextNode只为头节点，然后清空next的prev</span></span><br><span class="line"><span class="comment"> * 最后size减1</span></span><br><span class="line"><span class="comment"> * 如果是删除中间节点，调用remove(int index)</span></span><br><span class="line"><span class="comment"> * 首先判断Index对应的节点是否为头节点，即index是否为0</span></span><br><span class="line"><span class="comment"> * 如果不是中间节点，就是x的prev指向x的next</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> o element to be removed from this list, if present</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if this list contained the specified element</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</span><br><span class="line">            <span class="keyword">if</span> (x.item == <span class="keyword">null</span>) &#123;</span><br><span class="line">                unlink(x);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="keyword">null</span>; x = x.next) &#123;</span><br><span class="line">            <span class="keyword">if</span> (o.equals(x.item)) &#123;</span><br><span class="line">                unlink(x);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Removes the element at the specified position in this list.  Shifts any</span></span><br><span class="line"><span class="comment">     * subsequent elements to the left (subtracts one from their indices).</span></span><br><span class="line"><span class="comment">     * Returns the element that was removed from the list.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> index the index of the element to be removed</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the element previously at the specified position</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        checkElementIndex(index);</span><br><span class="line">        <span class="keyword">return</span> unlink(node(index));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Unlinks non-null node x.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">E <span class="title">unlink</span><span class="params">(Node&lt;E&gt; x)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// assert x != null;</span></span><br><span class="line">        <span class="keyword">final</span> E element = x.item;</span><br><span class="line">        <span class="keyword">final</span> Node&lt;E&gt; next = x.next;</span><br><span class="line">        <span class="keyword">final</span> Node&lt;E&gt; prev = x.prev;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (prev == <span class="keyword">null</span>) &#123;</span><br><span class="line">            first = next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            prev.next = next;</span><br><span class="line">            x.prev = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (next == <span class="keyword">null</span>) &#123;</span><br><span class="line">            last = prev;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next.prev = prev;</span><br><span class="line">            x.next = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        x.item = <span class="keyword">null</span>;</span><br><span class="line">        size--;</span><br><span class="line">        modCount++;</span><br><span class="line">        <span class="keyword">return</span> element;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>get(int index)</code>得到指定下标处元素的引用，通过调用上文中提到的<code>node(int index)</code>方法实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Positional Access Operations</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns the element at the specified position in this list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> index index of the element to return</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the element at the specified position in this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    checkElementIndex(index);</span><br><span class="line">    <span class="keyword">return</span> node(index).item;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>set(int index, E element)</code>方法将指定下标处的元素修改成指定值，也是先通过<code>node(int index)</code>找到对应下表元素的引用，然后修改<code>Node</code>中<code>item</code>的值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Replaces the element at the specified position in this list with the</span></span><br><span class="line"><span class="comment"> * specified element.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> index index of the element to replace</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> element element to be stored at the specified position</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the element previously at the specified position</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">    checkElementIndex(index);</span><br><span class="line">    Node&lt;E&gt; x = node(index);</span><br><span class="line">    E oldVal = x.item;</span><br><span class="line">    x.item = element;</span><br><span class="line">    <span class="keyword">return</span> oldVal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>如果应用程序有更多的插入或者删除操作，较少的数据读取，LinkedList对象要优于ArrayList对象；</li>
+<li>不过ArrayList的插入，删除操作也不一定比LinkedList慢，如果在List靠近末尾的地方插入，那么ArrayList只需要移动较少的数据，而LinkedList则需要一直查找到列表尾部，反而耗费较多时间，这时ArrayList就比LinkedList要快。</li>
+</ul>
+<p><strong>缺陷：</strong></p>
+<p>线程不安全，查找消耗的资源大，效率低，不能随机访问。</p>
+<h4><span id="三-多线程场景下的使用">三、多线程场景下的使用</span></h4><p>通过上面的知识我们可以知道，ArrayList和LinkedList没有实现同步的。那么在多线程的情况，我们怎么使用List呢。有三种思路 分别是：Vector &gt; SynchronizedList &gt; CopyOnWriteArrayList</p>
+<p>Vector不过多结束，JDK提供的实现方式，但是不能只能用这一种方案。至少还得说得下面这种：</p>
+<p><code>java.util.Collections.SynchronizedList</code></p>
+<p>它能把所有 List 接口的实现类转换成线程安全的List，比 Vector 有更好的扩展性和兼容性。</p>
+<p>很可惜，它所有方法都是带同步对象锁的，和 Vector 一样，它不是性能最优的。即使你能说到这里，面试官还会继续往下追问，比如在读多写少的情况，SynchronizedList这种集合性能非常差，还有没有更合适的方案？</p>
+<p>介绍两个并发包里面的并发集合类：</p>
+<blockquote>
+<p>java.util.concurrent.CopyOnWriteArrayList<br> java.util.concurrent.CopyOnWriteArraySet</p>
+</blockquote>
+
       
 
       
@@ -199,16 +334,24 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JCF - JAVA集合概述</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -228,168 +371,14 @@
 
 
 
-
-  
-    <article id="post-JCF - JAVA集合概述" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/">JCF - JAVA集合概述</a>
-    </h1>
   
 
-        
-        <a href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  	<time datetime="2020-06-03T11:16:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-03</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、Collection概述"><a href="#一、Collection概述" class="headerlink" title="一、Collection概述"></a>一、Collection概述</h4><p>Collection - 容器，就是存放其他java对象的对象，存放在jdk的juc包中。<strong>Java Collections Framework(JCf)</strong> 就为我们提供了对应用具，起始于JDK1.2。我们首先来看下jdk的官方描述：</p>
-        
-          <a class="article-more-a" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Lambda与Stream-API" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/Lambda%E4%B8%8EStream-API/">Lambda与Stream-API</a>
-    </h1>
   
 
-        
-        <a href="/2020/05/30/Lambda%E4%B8%8EStream-API/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:15:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、Lambda与函数式编程"><a href="#一、Lambda与函数式编程" class="headerlink" title="一、Lambda与函数式编程"></a>一、Lambda与函数式编程</h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
-        
-          <a class="article-more-a" href="/2020/05/30/Lambda%E4%B8%8EStream-API/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/Lambda%E4%B8%8EStream-API/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+  
 
   
+
   
 
 
@@ -412,8 +401,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
