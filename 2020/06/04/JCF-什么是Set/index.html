@@ -6,15 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tommy的博客</title>
+  <title>JCF-什么是Set | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tommy的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="[toc] 我们在介绍Collection的时候对 Set的了解是：存无序、唯一不可重复的元素的 Collection。通过这篇文章我们来详细理解Set接口以及实现类，通过这篇文章，我们可以了解到以下几点：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JCF-什么是Set">
+<meta property="og:url" content="http://yoursite.com/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/index.html">
 <meta property="og:site_name" content="Tommy的博客">
+<meta property="og:description" content="[toc] 我们在介绍Collection的时候对 Set的了解是：存无序、唯一不可重复的元素的 Collection。通过这篇文章我们来详细理解Set接口以及实现类，通过这篇文章，我们可以了解到以下几点：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/set_fenglei.jpg">
+<meta property="og:image" content="http://yoursite.com/images/hashTable.jpg">
+<meta property="article:published_time" content="2020-06-04T06:33:40.000Z">
+<meta property="article:modified_time" content="2020-06-12T06:23:45.763Z">
 <meta property="article:author" content="tommy">
+<meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/set_fenglei.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -147,96 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-JCF-什么是List" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-JCF-什么是Set" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/">JCF-什么是List</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/" class="archive-article-date">
-  	<time datetime="2020-06-04T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-04</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一篇文章概要介绍Collection之后，我们对List的了解是：List是存有序(插入顺序)、允许存相同元素的 Collection。能够精确控制每个元素的插入位置，通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素。通过这篇文章我们来详细回顾List接口以及实现类，我们可以了解到以下几点：</p>
-        
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JCF-什么是Set" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/">JCF-什么是Set</a>
+    <h1 class="article-title" itemprop="name">
+      JCF-什么是Set
     </h1>
   
 
@@ -249,15 +175,118 @@
     
     <!-- 目录内容 -->
 
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+    <div id="toc-article" class="toc-article">
+        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+        <strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Set概要</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">官方描述：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.2.</span> <span class="toc-text">Set继承和实现关系：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Set主要实现类讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">HashSet</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">TreeSet</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、Set是如何判断两个对象相等</span></a></li></ol>
+         </div>
+   <script type="text/javascript">
+    function showToc(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:block");
+        show_toc_btn.setAttribute("style","display:none");
+        };
+    function showBtn(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:none");
+        show_toc_btn.setAttribute("style","display:block");
+        };
+   </script>
+      
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>[toc]</p>
 <p>我们在介绍Collection的时候对</p>
 <p>Set的了解是：存无序、唯一不可重复的元素的 Collection。通过这篇文章我们来详细理解Set接口以及实现类，通过这篇文章，我们可以了解到以下几点：</p>
-        
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/#more">more >></a>
-        
+<a id="more"></a>
+
+<ul>
+<li>Set接口概要和主要(特有)方法</li>
+<li>Set相关主要实现类主要功能、使用场景以及源码实现</li>
+<li>Set如何判断对象相等</li>
+</ul>
+<p><strong>目录：</strong></p>
+<!-- toc -->
+
+<ul>
+<li><a href="#一-set概要">一、Set概要</a><ul>
+<li><a href="#官方描述">官方描述：</a></li>
+<li><a href="#set继承和实现关系">Set继承和实现关系：</a></li>
+</ul>
+</li>
+<li><a href="#二-set主要实现类讲解">二、Set主要实现类讲解</a><ul>
+<li><a href="#hashset">HashSet</a></li>
+<li><a href="#treeset">TreeSet</a></li>
+</ul>
+</li>
+<li><a href="#三-set是如何判断两个对象相等">三、Set是如何判断两个对象相等</a></li>
+</ul>
+<!-- tocstop -->
+
+<h4><span id="一-set概要">一、Set概要</span></h4><h6><span id="官方描述">官方描述：</span></h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A collection that contains no duplicate elements.  More formally, sets</span></span><br><span class="line"><span class="comment"> * contain no pair of elements &lt;code&gt;e1&lt;/code&gt; and &lt;code&gt;e2&lt;/code&gt; such that</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;e1.equals(e2)&lt;/code&gt;, and at most one null element.  As implied by</span></span><br><span class="line"><span class="comment"> * its name, this interface models the mathematical &lt;i&gt;set&lt;/i&gt; abstraction.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 不包含重复元素的集合。更正式地说，集合不包含一对元素e1.equals(e2)的e1和e2 ，</span></span><br><span class="line"><span class="comment"> * 并且最多一个空元素。正如他的名字set一样，这个接口模拟了一个数据结构</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The &lt;tt&gt;Set&lt;/tt&gt; interface places additional stipulations, beyond those</span></span><br><span class="line"><span class="comment"> * inherited from the &lt;tt&gt;Collection&lt;/tt&gt; interface, on the contracts of all</span></span><br><span class="line"><span class="comment"> * constructors and on the contracts of the &lt;tt&gt;add&lt;/tt&gt;, &lt;tt&gt;equals&lt;/tt&gt; and</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;hashCode&lt;/tt&gt; methods.  Declarations for other inherited methods are</span></span><br><span class="line"><span class="comment"> * also included here for convenience.  (The specifications accompanying these</span></span><br><span class="line"><span class="comment"> * declarations have been tailored to the &lt;tt&gt;Set&lt;/tt&gt; interface, but they do</span></span><br><span class="line"><span class="comment"> * not contain any additional stipulations.)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Set接口除了继承自Collection接口的所有构造函数的合同以及add,equals和hashCode方法的合同外 ，</span></span><br><span class="line"><span class="comment"> * 还增加了其他方法。为了方便，其他继承方法的声明也包括在这里。(伴随这些声明的规范已经量身定做Set接口，</span></span><br><span class="line"><span class="comment"> * 但它们不包含任何附加的规定。)</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The additional stipulation on constructors is, not surprisingly,</span></span><br><span class="line"><span class="comment"> * that all constructors must create a set that contains no duplicate elements</span></span><br><span class="line"><span class="comment"> * (as defined above).</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 构造函数的额外规定并不奇怪，所有构造函数都必须创建一个不包含重复元素的集合（如上所定义）。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Note: Great care must be exercised if mutable objects are used as set</span></span><br><span class="line"><span class="comment"> * elements.  The behavior of a set is not specified if the value of an object</span></span><br><span class="line"><span class="comment"> * is changed in a manner that affects &lt;tt&gt;equals&lt;/tt&gt; comparisons while the</span></span><br><span class="line"><span class="comment"> * object is an element in the set.  A special case of this prohibition is</span></span><br><span class="line"><span class="comment"> * that it is not permissible for a set to contain itself as an element.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 注意：如果可变对象用作设置元素，则必须非常小心。 如果对象的值以影响equals比较的方式更改，</span></span><br><span class="line"><span class="comment"> * 而对象是集合中的元素， 则不指定集合的行为。</span></span><br><span class="line"><span class="comment"> * 这种禁止的一个特殊情况是，一个集合不允许将其本身作为一个元素。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Some set implementations have restrictions on the elements that</span></span><br><span class="line"><span class="comment"> * they may contain.  For example, some implementations prohibit null elements,</span></span><br><span class="line"><span class="comment"> * and some have restrictions on the types of their elements.  Attempting to</span></span><br><span class="line"><span class="comment"> * add an ineligible element throws an unchecked exception, typically</span></span><br><span class="line"><span class="comment"> * &lt;tt&gt;NullPointerException&lt;/tt&gt; or &lt;tt&gt;ClassCastException&lt;/tt&gt;.  Attempting</span></span><br><span class="line"><span class="comment"> * to query the presence of an ineligible element may throw an exception,</span></span><br><span class="line"><span class="comment"> * or it may simply return false; some implementations will exhibit the former</span></span><br><span class="line"><span class="comment"> * behavior and some will exhibit the latter.  More generally, attempting an</span></span><br><span class="line"><span class="comment"> * operation on an ineligible element whose completion would not result in</span></span><br><span class="line"><span class="comment"> * the insertion of an ineligible element into the set may throw an</span></span><br><span class="line"><span class="comment"> * exception or it may succeed, at the option of the implementation.</span></span><br><span class="line"><span class="comment"> * Such exceptions are marked as "optional" in the specification for this</span></span><br><span class="line"><span class="comment"> * interface.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 一些集合实现对它们可能包含的元素有限制。 例如，一些实现禁止空元素，有些实现对元素的类型有限制。 </span></span><br><span class="line"><span class="comment"> * 尝试添加不合格元素会引发未经检查的异常，通常为NullPointerException或ClassCastException 。 </span></span><br><span class="line"><span class="comment"> * 尝试查询不合格元素的存在可能会引发异常，或者可能只是返回false; 一些实现将展现出前者的行为，一些实现将展现出后者。 </span></span><br><span class="line"><span class="comment"> * 更一般来说，尝试对不符合条件的元素的操作，其完成不会导致不合格元素插入到集合中，可能会导致异常，或者可能会成功执行该选项。 </span></span><br><span class="line"><span class="comment"> * 此异常在此接口的规范中标记为“可选”。</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>从官方描述我们可以对set的作用做出如下归纳：</p>
+<ul>
+<li>set注重独一无二的性质，该体系集合可以已知某个元素是否存在这个集合中并且不会存储重复元素。</li>
+<li>set的相等比较是基于 hashCode 和 equals 方法比较的</li>
+</ul>
+<p>除了以上两点，其实Set主要由内部的Map决定的，可以说Set就是Map的一个马甲。Set的单个元素由HashMap</p>
+<p>承载。</p>
+<h6><span id="set继承和实现关系">Set继承和实现关系：</span></h6><p><img src="/images/set_fenglei.jpg" alt="set_fenglei "></p>
+<p>Set的结构关系如上，总结关系和上篇文章说到的List类似，其中最重要的两个实现类为：HashSet和TreeSet。     </p>
+<h4><span id="二-set主要实现类讲解">二、Set主要实现类讲解</span></h4><h6><span id="hashset">HashSet</span></h6><p>​        HashSet可以看做是一个包装之后的HashSet，具体点说就是<em>HashSet</em>里面有一个<em>HashMap</em>（适配器模式）。</p>
+<p>他是一个哈希表结构，新增元素相当于HashMap的key，value默认为一个固定的Object。它继承于AbstractSet，</p>
+<p>实现了Set, Cloneable, Serializable接口。HashSet是线程不安全，若2个线程同时操作HashSet，必须通过代码实</p>
+<p>现同步。</p>
+<pre><code>关于HashSet的方法我们需要关注的方法是add方法。</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dummy value to associate with an Object in the backing Map</span></span><br><span class="line"><span class="comment">// 与后备图中的对象关联的虚拟值</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//hashMap的put方法</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> putVal(hash(key), key, value, <span class="keyword">false</span>, <span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过查看以上的源码，我们可以了解到：实际的逻辑都是在HashMap的put()方法中，关于put的实现，我们会在之后的文章讲解。</p>
+<p>我们还需要关注的是，hashSet如何保证Set的数据的不重复，元素的哈希值是通过元素的hashcode方法 来获取</p>
+<p>的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较equals方法 如果 equls结果为true ，</p>
+<p>HashSet就视为同一个元素。如果equals 为false就不是同一个元素。哈希值相同equals为false的元素是怎么存储</p>
+<p>呢,就是在同样的哈希值下顺延（可以认为哈希值相同的元素放在一个哈希桶中）。也就是哈希一样的存一列。如</p>
+<p>下图所示</p>
+<p><img src="/images/hashTable.jpg" alt="hashTable "></p>
+<p>总结：通过hashCode值来确定元素在内存中的位置。一个hashCode位置上可以存放多个元素。</p>
+<p>当hashcode() 值相同equals() 返回为true 时,hashset 集合认为这两个元素是相同的元素.只存储一个（重复元素无</p>
+<p>法放入）。调用原理:先判断hashcode 方法的值,如果相同才会去判断equals 如果不相同,是不会调用equals方法</p>
+<p>的。</p>
+<p>遍历HashSet的时候，由于Set集合中并没有角标的概念，所以并没有像List一样提供get（）方法。当获取</p>
+<p>HashSet中某个元素时，只能通过遍历集合的方式进行equals()比较来实现</p>
+<h6><span id="treeset">TreeSet</span></h6><p>从名字上可以看出，此集合的实现和树结构有关。与HashSet集合类似，TreeSet也是基于Map来实现，具体实现</p>
+<p><strong>TreeMap</strong>(后面讲解)，其底层结构为<strong>红黑树</strong>（特殊的二叉查找树）；与HashSet不同的是，TreeSet具有排序功</p>
+<p>能，分为自然排序(123456)和自定义排序两类，默认是自然排序；在程序中，我们可以按照任意顺序将元素插入</p>
+<p>到集合中，等到遍历时TreeSet会按照一定顺序输出–倒序或者升序；</p>
+<p>具有如下特点：</p>
+<ul>
+<li>对插入的元素进行排序，是一个有序的集合（主要与HashSet的区别）;</li>
+<li>底层使用红黑树结构，而不是哈希表结构；</li>
+<li>允许插入Null值；</li>
+<li>不允许插入重复元素；</li>
+<li>线程不安全；</li>
+</ul>
+<p>关于排序，对集合元素排序，有两种方法是分为自然排序和自定义排序，那么这两种方式如何实现呢？在TreeSet</p>
+<p>调用add方法时，会调用到底层TreeMap的put方法，在put方法中会调用到compare(key, key)方法，进行key大小</p>
+<p>的比较；此外，还有另一种方式，那就是实现Comparetor<t>接口，并重写compare方法；</t></p>
+<h4><span id="三-set是如何判断两个对象相等">三、Set是如何判断两个对象相等</span></h4><p>​        set想要保证两个元素不重复，那么它是怎么保证的呢？这就是Object.equals方法了。但是，如果每增加一个</p>
+<p>元素就检查一次，那么当元素很多时，后添加到集合中的元素比较的次数就非常多了。 也就是说，如果集合中现</p>
+<p>在已经有1000个元素，那么第1001个元素加入集合时，它就要调用1000次equals方法。这显然会大大降低效率。</p>
+<p> 那么就要引入哈希算法，当我们调用哈希容器的get(Object obj)方法时,它会首先利用查看当前容器中是否存在有</p>
+<p>相同哈希值的对象，如果不存在，那么直接返回null；如果存在，再调用当前对象的equals()方法比较一下看哈希</p>
+<p>处的、对象是否和要查找的对象相同；如果不相同，那么返回null。如果相同，则返回该哈希处的对象。关于</p>
+<p>hashCode的介绍可以参考博文<a href="https://www.jianshu.com/p/2c1b6dd312eb。" target="_blank" rel="noopener">https://www.jianshu.com/p/2c1b6dd312eb。</a></p>
+<p>​    比如说，如果想要让两个不同的User对象视为相等的，就必须覆盖Object继下来的hashCode方法和equals方</p>
+<p>法，因为Object  hashCode方法返回的是该对象的内存地址(可以这么理解但是实际上不一定是内存地址)，所以必</p>
+<p>须重写hashCode方法，才能保证两个不同的对象具有相同的hashCode，同时也需要两个不同对象比较equals方</p>
+<p>法会返回true</p>
+
       
 
       
@@ -280,16 +309,33 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/06/04/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JCF-什么是List
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JCF - JAVA集合概述</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -309,168 +355,14 @@
 
 
 
-
-  
-    <article id="post-JCF - JAVA集合概述" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/">JCF - JAVA集合概述</a>
-    </h1>
   
 
-        
-        <a href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  	<time datetime="2020-06-03T11:16:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-03</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、Collection概述"><a href="#一、Collection概述" class="headerlink" title="一、Collection概述"></a>一、Collection概述</h4><p>Collection - 容器，就是存放其他java对象的对象，存放在jdk的juc包中。<strong>Java Collections Framework(JCf)</strong> 就为我们提供了对应用具，起始于JDK1.2。我们首先来看下jdk的官方描述：</p>
-        
-          <a class="article-more-a" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Lambda与Stream-API" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/30/Lambda%E4%B8%8EStream-API/">Lambda与Stream-API</a>
-    </h1>
   
 
-        
-        <a href="/2020/05/30/Lambda%E4%B8%8EStream-API/" class="archive-article-date">
-  	<time datetime="2020-05-30T06:15:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-30</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="一、Lambda与函数式编程"><a href="#一、Lambda与函数式编程" class="headerlink" title="一、Lambda与函数式编程"></a>一、Lambda与函数式编程</h4><p>​        Lambda表达式是Java 8最流行最常用的功能特性。它将函数式编程概念引入Java，函数式编程的好处在于可以帮助我们节省大量的代码，非常方便易用，能够大幅度的提高我们的编码效率。首先，我们介绍lambda表达式是什么，并将传统的java代码写法转换为lambda表达式写法，以此了解lambda表达式都对传统代码做了哪些简化。</p>
-        
-          <a class="article-more-a" href="/2020/05/30/Lambda%E4%B8%8EStream-API/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/30/Lambda%E4%B8%8EStream-API/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+  
 
   
+
   
 
 
@@ -493,8 +385,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
