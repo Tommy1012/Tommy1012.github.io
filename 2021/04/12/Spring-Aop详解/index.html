@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Spring-Aop详解 | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc]  AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核心模块是类，然而在AOP中核心模块是切面。切面实现了多种类型和对象的模块化管理，比如事物的管理、权限控制。通过这边文章，我们可以了解到以下几点：">
+  <meta name="description" content="目录：    一、AOP基本概念 什么是AOP： AOP中的一些概念： 切点匹配表达式   二、AOP两种实现方式详解 JDK动态代理： Cglib动态代理：      AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring-Aop详解">
 <meta property="og:url" content="http://yoursite.com/2021/04/12/Spring-Aop%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Tommy的博客">
-<meta property="og:description" content="[toc]  AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核心模块是类，然而在AOP中核心模块是切面。切面实现了多种类型和对象的模块化管理，比如事物的管理、权限控制。通过这边文章，我们可以了解到以下几点：">
+<meta property="og:description" content="目录：    一、AOP基本概念 什么是AOP： AOP中的一些概念： 切点匹配表达式   二、AOP两种实现方式详解 JDK动态代理： Cglib动态代理：      AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://yoursite.com/Users/chengkai/Downloads/oop%E6%B5%81%E7%A8%8B.png">
 <meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/AOP%E6%B5%81%E7%A8%8B.png">
 <meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/AOP%E6%A6%82%E5%BF%B5%E8%AF%B4%E6%98%8E.png">
 <meta property="article:published_time" content="2021-04-12T06:33:40.000Z">
-<meta property="article:modified_time" content="2021-04-19T08:02:35.376Z">
+<meta property="article:modified_time" content="2021-04-19T08:09:02.611Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -203,10 +203,25 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <p>[toc]</p>
+        <p><strong>目录：</strong></p>
+<!-- toc -->
+
 <ul>
-<li>AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核心模块是类，然而在AOP中核心模块是切面。切面实现了多种类型和对象的模块化管理，比如事物的管理、权限控制。通过这边文章，我们可以了解到以下几点：</li>
+<li><a href="#一-aop基本概念">一、AOP基本概念</a><ul>
+<li><a href="#什么是aop">什么是AOP：</a></li>
+<li><a href="#aop中的一些概念">AOP中的一些概念：</a></li>
+<li><a href="#切点匹配表达式">切点匹配表达式</a></li>
 </ul>
+</li>
+<li><a href="#二-aop两种实现方式详解">二、AOP两种实现方式详解</a><ul>
+<li><a href="#jdk动态代理">JDK动态代理：</a></li>
+<li><a href="#cglib动态代理">Cglib动态代理：</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<p>AOP(Aspect Oriented Programming)：面向切面编程。AOP是在我们原来写的代码的基础上，进行一定的包装，比如在方法执行前、方法返回后、方法抛出异常后等地方进行一定的拦截处理或者增强处理。面向对象的编程核心模块是类，然而在AOP中核心模块是切面。切面实现了多种类型和对象的模块化管理，比如事物的管理、权限控制。通过这边文章，我们可以了解到以下几点：</p>
 <a id="more"></a>
 
 <ul>
