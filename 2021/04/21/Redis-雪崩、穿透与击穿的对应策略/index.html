@@ -6,24 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>设计模式-策略模式 | Tommy的博客</title>
+  <title>Redis-雪崩、穿透与击穿的对应策略 | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="看过HeadFirst设计模式的同学，应该印象比较深刻的本书第一个拿出来讲的就是策略模式，可以见得策略模式是比较适合入门的设计模式之一，那么今天我们就来详细说下设计模式之策略模式，通过这篇文章，我们可以了解到：">
+  <meta name="description" content="想必大家在面试的时候问到redis的时候基本会被问到缓存的雪崩、穿透和击穿问题。那么接下来我们来了解什么是 Redis 的雪崩、穿透和击穿。Redis 崩溃之后会产生什么情况？系统该如何应对这种情况？如何处理 Redis 的穿透？这篇文章分为以下几个知识点：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式-策略模式">
-<meta property="og:url" content="http://yoursite.com/2020/04/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="Redis-雪崩、穿透与击穿的对应策略">
+<meta property="og:url" content="http://yoursite.com/2021/04/21/Redis-%E9%9B%AA%E5%B4%A9%E3%80%81%E7%A9%BF%E9%80%8F%E4%B8%8E%E5%87%BB%E7%A9%BF%E7%9A%84%E5%AF%B9%E5%BA%94%E7%AD%96%E7%95%A5/index.html">
 <meta property="og:site_name" content="Tommy的博客">
-<meta property="og:description" content="看过HeadFirst设计模式的同学，应该印象比较深刻的本书第一个拿出来讲的就是策略模式，可以见得策略模式是比较适合入门的设计模式之一，那么今天我们就来详细说下设计模式之策略模式，通过这篇文章，我们可以了解到：">
+<meta property="og:description" content="想必大家在面试的时候问到redis的时候基本会被问到缓存的雪崩、穿透和击穿问题。那么接下来我们来了解什么是 Redis 的雪崩、穿透和击穿。Redis 崩溃之后会产生什么情况？系统该如何应对这种情况？如何处理 Redis 的穿透？这篇文章分为以下几个知识点：">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/images/strategyPattern.jpg">
-<meta property="og:image" content="http://yoursite.com/images/%E6%94%AF%E4%BB%98%E7%AD%96%E7%95%A5.jpg">
-<meta property="og:image" content="http://yoursite.com/images/%E7%AD%96%E7%95%A5%E6%A8%A1%E6%9D%BF.jpg">
-<meta property="article:published_time" content="2020-04-11T06:33:40.000Z">
-<meta property="article:modified_time" content="2020-06-15T05:16:55.000Z">
+<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
+<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%BA%94%E5%AF%B9.png">
+<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="article:published_time" content="2021-04-21T07:33:40.000Z">
+<meta property="article:modified_time" content="2021-04-21T07:45:25.763Z">
 <meta property="article:author" content="tommy">
-<meta property="article:tag" content="设计模式">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/strategyPattern.jpg">
+<meta name="twitter:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -156,20 +156,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-设计模式-策略模式" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Redis-雪崩、穿透与击穿的对应策略" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      设计模式-策略模式
+      Redis-雪崩、穿透与击穿的对应策略
     </h1>
   
 
         
-        <a href="/2020/04/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-04-11T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-11</time>
+        <a href="/2021/04/21/Redis-%E9%9B%AA%E5%B4%A9%E3%80%81%E7%A9%BF%E9%80%8F%E4%B8%8E%E5%87%BB%E7%A9%BF%E7%9A%84%E5%AF%B9%E5%BA%94%E7%AD%96%E7%95%A5/" class="archive-article-date">
+  	<time datetime="2021-04-21T07:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-21</time>
 </a>
         
       </header>
@@ -183,7 +183,7 @@
     <div id="toc-article" class="toc-article">
         <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
         <strong class="toc-title">文章目录</strong>
-           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、策略模式概要</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">是什么：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、策略模式使用场景和Demo</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">使用场景：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">demo</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.3.</span> <span class="toc-text">模板：</span></a></li></ol></li></ol></li></ol>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、缓存雪崩：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、缓存穿透</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、缓存击穿</span></a></li></ol>
          </div>
    <script type="text/javascript">
     function showToc(){
@@ -203,73 +203,58 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <p>看过HeadFirst设计模式的同学，应该印象比较深刻的本书第一个拿出来讲的就是策略模式，可以见得策略模式是比较适合入门的设计模式之一，那么今天我们就来详细说下设计模式之策略模式，通过这篇文章，我们可以了解到：</p>
+        <p>想必大家在面试的时候问到redis的时候基本会被问到缓存的雪崩、穿透和击穿问题。那么接下来我们来了解什么是 Redis 的雪崩、穿透和击穿。Redis 崩溃之后会产生什么情况？系统该如何应对这种情况？如何处理 Redis 的穿透？这篇文章分为以下几个知识点：</p>
 <a id="more"></a>
 
 <ul>
-<li>策略模式是什么和解决什么问题</li>
-<li>策略模式使用场景和简单的Strategy 代码demo</li>
-<li>策略模式的模板样例</li>
+<li>缓存雪崩及其对应策略</li>
+<li>缓存穿透及其对应策略</li>
+<li>缓存击穿及其对应策略</li>
 </ul>
 <p><strong>目录：</strong></p>
 <!-- toc -->
 
 <ul>
-<li><a href="#一-策略模式概要">一、策略模式概要</a><ul>
-<li><a href="#是什么">是什么：</a></li>
-</ul>
-</li>
-<li><a href="#二-策略模式使用场景和demo">二、策略模式使用场景和Demo</a><ul>
-<li><a href="#使用场景">使用场景：</a></li>
-<li><a href="#demo">demo</a></li>
-<li><a href="#模板">模板：</a></li>
-</ul>
-</li>
+<li><a href="#一-缓存雪崩">一、缓存雪崩：</a></li>
+<li><a href="#二-缓存穿透">二、缓存穿透</a></li>
+<li><a href="#三-缓存击穿">三、缓存击穿</a></li>
 </ul>
 <!-- tocstop -->
 
-<h4><span id="一-策略模式概要">一、策略模式概要</span></h4><h6><span id="是什么">是什么：</span></h6><p>策略模式（Strategy Pattern）属于对象的<em>行为模式</em>。其用意是针对一组算法，将每一个算法封装到具有共同接口</p>
-<p>的独立的类中，从而使得它们可以相互替换。策略模式使得算法可以在不影响到客户端的情况下发生变化。它的</p>
-<p>uml图如下：</p>
-<p><img src="/images/strategyPattern.jpg" alt="strategyPattern "></p>
-<p>如上图所示，策略模式主要由三个角色组成，环境角色（Context）、抽象策略角色（Strategy）、具体策略角色（ConcreteStrategy）。</p>
+<h4><span id="一-缓存雪崩">一、缓存雪崩：</span></h4><p>​    对于系统 A，假设每天高峰期每秒 5000 个请求，本来缓存在高峰期可以扛住每秒 4000 个请求，但是缓存机器意外发生了全盘宕机。缓存挂了，此时 1 秒 5000 个请求全部落数据库，数据库必然扛不住，它会报一下警，然后就挂了。此时，如果没有采用什么特别的方案来处理这个故障，DBA 很着急，重启数据库，但是数据库立马又被新的流量给打死了。</p>
+<p>这就是<strong>缓存雪崩</strong>。</p>
+ <img src="/Users/mydisk/study/hexo/blog/source/images/缓存雪崩.png" alt="缓存雪崩">
+
+<p>缓存雪崩的事前事中事后的解决方案如下：</p>
 <ul>
-<li>环境角色(Context)：持有一个策略类的引用，提供给客户端使用。</li>
-<li>抽象策略角色(Strategy)：这是一个抽象角色，通常由一个接口或抽象类实现。此角色给出所有的具体策略类所需的接口。</li>
-<li>具体策略角色(ConcreteStrategy)：包装了相关的算法或行为。     </li>
+<li>事前：Redis 高可用，主从+哨兵，Redis cluster，避免全盘崩溃。</li>
+<li>事中：本地 ehcache 缓存 + hystrix 限流&amp;降级，避免 MySQL 被打死。</li>
+<li>事后：Redis 持久化，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
 </ul>
-<h4><span id="二-策略模式使用场景和demo">二、策略模式使用场景和Demo</span></h4><h6><span id="使用场景">使用场景：</span></h6><p>​    如果在一个系统里面有许多类，它们之间的区别仅在于它们的行为，那么使用策略模式可以动态地让一个对象</p>
-<p>在许多行为中选择一种行为；一个系统需要动态地在几种算法中选择一种;如果一个对象有很多的行为，如果不用</p>
-<p>恰当的模式，这些行为就只好使用多重的条件选择语句来实现;</p>
-<h6><span id="demo">demo</span></h6><p>下面拿我在工作中使用到的策略模式来举例：</p>
-<p><img src="/images/%E6%94%AF%E4%BB%98%E7%AD%96%E7%95%A5.jpg" alt="支付策略 ">        </p>
+<img src="/Users/mydisk/study/hexo/blog/source/images/缓存雪崩应对.png" alt="缓存雪崩应对" style="zoom:80%;">
+
+<p>​    用户发送一个请求，系统 A 收到请求后，先查本地 ehcache 缓存，如果没查到再查 Redis。如果 ehcache 和 Redis 都没有，再查数据库，将数据库中的结果，写入 ehcache 和 Redis 中。</p>
+<p>​    限流组件，可以设置每秒的请求，有多少能通过组件，剩余的未通过的请求，怎么办？<strong>走降级</strong>！可以返回一些默认的值，或者友情提示，或者空值。</p>
+<p>​    这样做的好处是：</p>
 <ul>
-<li><p>PaymentStrategyContainer为环境角色，用来提供给客户端用，这里面具体确定了具体的实现策略并分发给具体实现类。</p>
-</li>
-<li><p>PaymentStrategy为抽象策略接口，规范了具体策略实现类的行为。</p>
-</li>
-<li><p>WechatPaymentStrategyImpl和AlipayPaymentStrategyImpl分别表示了具体的算法，即业务上的微信支付还是支付宝支付。</p>
-</li>
+<li>数据库绝对不会死，限流组件确保了每秒只有多少个请求能通过。</li>
+<li>只要数据库不死，就是说，对用户来说，2/5 的请求都是可以被处理的。</li>
+<li>只要有 2/5 的请求可以被处理，就意味着你的系统没死，对用户来说，可能就是点击几次刷不出来页面，但是多点几次，就可以刷出来了。</li>
 </ul>
-<p>以上三个类的代码因为涉及到公司业务这里就不便展示了；</p>
-<p>具体的引用如下：我利用了枚举做策略容器的分发条件。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建枚举</span></span><br><span class="line">PayMethodEnum payMethodEnum = PayMethodEnum.convertByValue(pcPayRo.getPayType());</span><br><span class="line"><span class="comment">//组织参数</span></span><br><span class="line">PaymentBo paymentBo = <span class="keyword">new</span> PaymentBo(orderId,subTypeBo.getTitle(),subTypeBo.getPrice(),subTypeBo.getId(),pcPayRo.getPayType(),alipayPrivateKey,alipayPublicKey,</span><br><span class="line">        WechatTradeTypeEnum.NATIVE.getValue(),PaymentSourceEnum.PC.getValue());</span><br><span class="line"><span class="comment">//使用策略容器获得结果</span></span><br><span class="line">paymentUrl = PaymentStrategyContainer.doMask(payMethodEnum,paymentBo);</span><br></pre></td></tr></table></figure>
+<h4><span id="二-缓存穿透">二、缓存穿透</span></h4><p>​    对于系统 A，假设一秒 5000 个请求，结果其中 4000 个请求是黑客发出的恶意攻击。</p>
+<p>​    黑客发出的那 4000 个攻击，缓存中查不到，每次你去数据库里查，也查不到。</p>
+<p>​    举个栗子。数据库 id 是从 1 开始的，结果黑客发过来的请求 id 全部都是负数。这样的话，缓存中不会有，请求每次都“<strong>视缓存于无物</strong>”，直接查询数据库。这种恶意攻击场景的缓存穿透就会直接把数据库给打死。</p>
+<img src="/Users/mydisk/study/hexo/blog/source/images/缓存穿透.png" alt="缓存穿透" style="zoom:80%;">
 
-<h6><span id="模板">模板：</span></h6><p>下面分享一下，通用设计的策略容器模板：</p>
-<p><img src="/images/%E7%AD%96%E7%95%A5%E6%A8%A1%E6%9D%BF.jpg" alt="策略模板 ">    </p>
+<p>​    解决方式很简单，每次系统 A 从数据库中只要没查到，就写一个空值到缓存里去，比如 <code>set -999 UNKNOWN</code> 。然后设置一个过期时间，这样的话，下次有相同的 key 来访问的时候，在缓存失效之前，都可以直接从缓存中取数据。</p>
+<h4><span id="三-缓存击穿">三、缓存击穿</span></h4><p>​    缓存击穿，就是说某个 key 非常热点，访问非常频繁，处于集中式高并发访问的情况，当这个 key 在失效的瞬间，大量的请求就击穿了缓存，直接请求数据库，就像是在一道屏障上凿开了一个洞。</p>
+<p>​    不同场景下的解决方式可如下：</p>
 <ul>
-<li>Strategy：策略抽象接口，提供基础方法获得策略条件</li>
-<li>StrategyContainer：策略容器，用于生成策略实例。</li>
-<li>GenericExtractor：工具类，通用信息提取类</li>
-<li>StrategyContainerImpl：策略具体实现类，定义了具体策略的接入</li>
+<li>若缓存的数据是基本不会发生更新的，则可尝试将该热点数据设置为永不过期。</li>
+<li>若缓存的数据更新不频繁，且缓存刷新的整个流程耗时较少的情况下，则可以采用基于 Redis、zookeeper 等分布式中间件的分布式互斥锁，或者本地互斥锁以保证仅少量的请求能请求数据库并重新构建缓存，其余线程则在锁释放后能访问到新缓存。</li>
+<li>若缓存的数据更新频繁或者在缓存刷新的流程耗时较长的情况下，可以利用定时线程在缓存过期前主动地重新构建缓存或者延后缓存的过期时间，以保证所有的请求能一直访问到对应的缓存。</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 策略接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span>&lt;<span class="title">C</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获得策略条件</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 用来注册的策略处理条件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">C <span class="title">getCondition</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 策略容器接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StrategyContainer</span>&lt;<span class="title">C</span>, <span class="title">S</span> <span class="keyword">extends</span> <span class="title">Strategy</span>&lt;<span class="title">C</span>&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获得处理策略</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> condition 策略条件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 对应策略条件的策略</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">S <span class="title">getStrategy</span><span class="params">(<span class="keyword">final</span> C condition)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 策略容器实现类，需要继承实现</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">StrategyContainerImpl</span>&lt;<span class="title">C</span>, <span class="title">S</span> <span class="keyword">extends</span> <span class="title">Strategy</span>&lt;<span class="title">C</span>&gt;&gt; <span class="keyword">implements</span> <span class="title">StrategyContainer</span>&lt;<span class="title">C</span>, <span class="title">S</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;D, T extends Strategy&lt;D&gt;&gt; <span class="function">T <span class="title">getStrategy</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">final</span> Class&lt;T&gt; strategyClass, <span class="keyword">final</span> D condition)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Collection&lt;T&gt; strategys = ManageSpringBeans.getBeans(</span><br><span class="line">                strategyClass).values();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">final</span> T t : strategys) &#123;</span><br><span class="line">            <span class="keyword">if</span> (t.getCondition() == condition) &#123;</span><br><span class="line">                <span class="keyword">return</span> t;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;C, S&gt; strategyMap = <span class="keyword">new</span> HashMap&lt;C, S&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> S <span class="title">getStrategy</span><span class="params">(<span class="keyword">final</span> C condition)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!strategyMap.containsKey(condition)) &#123;</span><br><span class="line">            initStrategyBean();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> strategyMap.get(condition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the strategyMap</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Map&lt;C, S&gt; <span class="title">getStrategyMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> strategyMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从spring context中直接提取对应的策略处理器，用以取代手工的registStrategy</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 只能应用于从StrategyContainerImpl继承的容器类，无法直接应用于StrategyContainerImpl对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">initStrategyBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (strategyMap.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            log.info(<span class="keyword">this</span>.getClass().getName()</span><br><span class="line">                    + <span class="string">" has already been initialed."</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Assert.isTrue(<span class="keyword">this</span>.getClass() != StrategyContainerImpl<span class="class">.<span class="keyword">class</span>,</span></span><br><span class="line">                "该方法无法直接应用于StrategyContainerImpl对象");</span><br><span class="line">        <span class="keyword">final</span> Class&lt;S&gt; strategyClass = (Class&lt;S&gt;) GenericExtractor.getClass(</span><br><span class="line">                <span class="keyword">this</span>.getClass().getGenericSuperclass(), <span class="number">1</span>);</span><br><span class="line">        Assert.isTrue(Strategy.class.isAssignableFrom(strategyClass),"策略类型不正确");</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> Class&lt;C&gt; conditionClass = (Class&lt;C&gt;) GenericExtractor.getClass(</span><br><span class="line">                <span class="keyword">this</span>.getClass().getGenericSuperclass(), <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">final</span> Collection&lt;S&gt; strategys = ManageSpringBeans.getBeans(</span><br><span class="line">                strategyClass).values();</span><br><span class="line"></span><br><span class="line">        log.info(conditionClass.getName() + <span class="string">"[C] has "</span></span><br><span class="line">                + strategys.size() + <span class="string">" "</span> + strategyClass.getName() + <span class="string">"[S]"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">final</span> S s : strategys) &#123;</span><br><span class="line">            log.info(<span class="string">"["</span> + s.getCondition() + <span class="string">"],["</span> + s + <span class="string">"]"</span>);</span><br><span class="line">            Assert.isTrue(!strategyMap.containsKey(s.getCondition()),</span><br><span class="line">                    <span class="string">"该类型已被注册过["</span> + s.getCondition() + <span class="string">"]["</span> + s + <span class="string">"]"</span>);</span><br><span class="line">            strategyMap.put(s.getCondition(), s);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  *通用信息工具提取</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericExtractor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> type</span></span><br><span class="line"><span class="comment">     *            用来提取类型信息的Type</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> i</span></span><br><span class="line"><span class="comment">     *            第i个类型信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 对应的类型信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Class&lt;?&gt; getClass(<span class="keyword">final</span> Type type, <span class="keyword">final</span> <span class="keyword">int</span> i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (type <span class="keyword">instanceof</span> ParameterizedType) &#123;</span><br><span class="line">            <span class="keyword">return</span> getGenericClass((ParameterizedType) type, i);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type <span class="keyword">instanceof</span> TypeVariable) &#123;</span><br><span class="line">            <span class="keyword">final</span> TypeVariable&lt;?&gt; typeVariable = (TypeVariable&lt;?&gt;) type;</span><br><span class="line">            <span class="keyword">return</span> getClass(typeVariable.getBounds()[<span class="number">0</span>], <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (Class&lt;?&gt;) type;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> parameterizedType</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> i</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Class&lt;?&gt; getGenericClass(</span><br><span class="line">            <span class="keyword">final</span> ParameterizedType parameterizedType, <span class="keyword">final</span> <span class="keyword">int</span> i) &#123;</span><br><span class="line">        <span class="keyword">final</span> Type genericClass = parameterizedType.getActualTypeArguments()[i];</span><br><span class="line">        <span class="keyword">if</span> (genericClass <span class="keyword">instanceof</span> ParameterizedType) &#123;</span><br><span class="line">            <span class="comment">// 处理多级泛型</span></span><br><span class="line">            <span class="keyword">return</span> (Class&lt;?&gt;) ((ParameterizedType) genericClass).getRawType();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (genericClass <span class="keyword">instanceof</span> GenericArrayType) &#123;</span><br><span class="line">            <span class="keyword">return</span> (Class&lt;?&gt;) ((GenericArrayType) genericClass)</span><br><span class="line">                    .getGenericComponentType();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (genericClass <span class="keyword">instanceof</span> TypeVariable) &#123;</span><br><span class="line">            <span class="comment">// 处理泛型擦拭对象</span></span><br><span class="line">            <span class="keyword">final</span> TypeVariable&lt;?&gt; typeVariable = (TypeVariable&lt;?&gt;) genericClass;</span><br><span class="line">            <span class="keyword">final</span> Type bound = typeVariable.getBounds()[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">return</span> getClass(bound, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (Class&lt;?&gt;) genericClass;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -283,7 +268,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
         		</li>
       		
 		</ul>
@@ -302,18 +287,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/04/13/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20nginx%E6%A6%82%E8%BF%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          分布式 - nginx概述
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/04/09/JCF-%E4%BB%80%E4%B9%88%E6%98%AFMap/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JCF-什么是Map</div>
+    <a href="/2021/04/21/Redis-%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E5%92%8C%E6%8C%81%E4%B9%85%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis-过期策略和持久化</div>
       <i class="icon-circle-right"></i>
     </a>
   
