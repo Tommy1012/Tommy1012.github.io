@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="Tommy的博客">
 <meta property="og:description" content="想必大家在面试的时候问到redis的时候基本会被问到缓存的雪崩、穿透和击穿问题。那么接下来我们来了解什么是 Redis 的雪崩、穿透和击穿。Redis 崩溃之后会产生什么情况？系统该如何应对这种情况？如何处理 Redis 的穿透？这篇文章分为以下几个知识点：">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
-<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%BA%94%E5%AF%B9.png">
-<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
+<meta property="og:image" content="http://yoursite.com/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
+<meta property="og:image" content="http://yoursite.com/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%BA%94%E5%AF%B9.png">
+<meta property="og:image" content="http://yoursite.com/images/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png">
 <meta property="article:published_time" content="2021-04-21T07:33:40.000Z">
-<meta property="article:modified_time" content="2021-04-21T07:45:25.763Z">
+<meta property="article:modified_time" content="2021-04-21T07:54:22.168Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
+<meta name="twitter:image" content="http://yoursite.com/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -223,16 +223,14 @@
 
 <h4><span id="一-缓存雪崩">一、缓存雪崩：</span></h4><p>​    对于系统 A，假设每天高峰期每秒 5000 个请求，本来缓存在高峰期可以扛住每秒 4000 个请求，但是缓存机器意外发生了全盘宕机。缓存挂了，此时 1 秒 5000 个请求全部落数据库，数据库必然扛不住，它会报一下警，然后就挂了。此时，如果没有采用什么特别的方案来处理这个故障，DBA 很着急，重启数据库，但是数据库立马又被新的流量给打死了。</p>
 <p>这就是<strong>缓存雪崩</strong>。</p>
- <img src="/Users/mydisk/study/hexo/blog/source/images/缓存雪崩.png" alt="缓存雪崩">
-
+<p><img src="/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9.png" alt="缓存雪崩 "></p>
 <p>缓存雪崩的事前事中事后的解决方案如下：</p>
 <ul>
 <li>事前：Redis 高可用，主从+哨兵，Redis cluster，避免全盘崩溃。</li>
 <li>事中：本地 ehcache 缓存 + hystrix 限流&amp;降级，避免 MySQL 被打死。</li>
 <li>事后：Redis 持久化，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+<li><img src="/images/%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9%E5%BA%94%E5%AF%B9.png" alt="缓存雪崩应对 "></li>
 </ul>
-<img src="/Users/mydisk/study/hexo/blog/source/images/缓存雪崩应对.png" alt="缓存雪崩应对" style="zoom:80%;">
-
 <p>​    用户发送一个请求，系统 A 收到请求后，先查本地 ehcache 缓存，如果没查到再查 Redis。如果 ehcache 和 Redis 都没有，再查数据库，将数据库中的结果，写入 ehcache 和 Redis 中。</p>
 <p>​    限流组件，可以设置每秒的请求，有多少能通过组件，剩余的未通过的请求，怎么办？<strong>走降级</strong>！可以返回一些默认的值，或者友情提示，或者空值。</p>
 <p>​    这样做的好处是：</p>
@@ -244,8 +242,7 @@
 <h4><span id="二-缓存穿透">二、缓存穿透</span></h4><p>​    对于系统 A，假设一秒 5000 个请求，结果其中 4000 个请求是黑客发出的恶意攻击。</p>
 <p>​    黑客发出的那 4000 个攻击，缓存中查不到，每次你去数据库里查，也查不到。</p>
 <p>​    举个栗子。数据库 id 是从 1 开始的，结果黑客发过来的请求 id 全部都是负数。这样的话，缓存中不会有，请求每次都“<strong>视缓存于无物</strong>”，直接查询数据库。这种恶意攻击场景的缓存穿透就会直接把数据库给打死。</p>
-<img src="/Users/mydisk/study/hexo/blog/source/images/缓存穿透.png" alt="缓存穿透" style="zoom:80%;">
-
+<p><img src="/images/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F.png" alt="缓存穿透 "></p>
 <p>​    解决方式很简单，每次系统 A 从数据库中只要没查到，就写一个空值到缓存里去，比如 <code>set -999 UNKNOWN</code> 。然后设置一个过期时间，这样的话，下次有相同的 key 来访问的时候，在缓存失效之前，都可以直接从缓存中取数据。</p>
 <h4><span id="三-缓存击穿">三、缓存击穿</span></h4><p>​    缓存击穿，就是说某个 key 非常热点，访问非常频繁，处于集中式高并发访问的情况，当这个 key 在失效的瞬间，大量的请求就击穿了缓存，直接请求数据库，就像是在一道屏障上凿开了一个洞。</p>
 <p>​    不同场景下的解决方式可如下：</p>
@@ -423,7 +420,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -431,7 +428,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
             
             <div class="clearfix"></div>

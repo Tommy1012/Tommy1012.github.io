@@ -15,13 +15,13 @@
 <meta property="og:site_name" content="Tommy的博客">
 <meta property="og:description" content="缓存是现在几乎所有项目都会用到的技术，起到了对抗高可用高并发的作用。那么缓存在项目中的使用目的、使用场景、使用中要注意的问题有哪些呢？之后的redis系列，会一一阐述这些问题。第一篇文章从最基础的redis的数据类型和 使用场景说起，这篇文章主要描述以下内容：">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/redis%E8%BF%9B%E7%A8%8B.png">
+<meta property="og:image" content="http://yoursite.com/images/redis%E8%BF%9B%E7%A8%8B.png">
 <meta property="article:published_time" content="2021-04-21T02:33:40.000Z">
-<meta property="article:modified_time" content="2021-04-21T06:16:01.093Z">
+<meta property="article:modified_time" content="2021-04-21T07:52:47.929Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/Users/mydisk/study/hexo/blog/source/images/redis%E8%BF%9B%E7%A8%8B.png">
+<meta name="twitter:image" content="http://yoursite.com/images/redis%E8%BF%9B%E7%A8%8B.png">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -253,7 +253,8 @@
 </li>
 </ul>
 <h4><span id="二-redis的线程模型">二、Redis的线程模型</span></h4><p>​    Redis 内部使用文件事件处理器 <code>file event handler</code> ，这个文件事件处理器是单线程的，所以 Redis 才叫做单线程的模型。<strong>但是在面试的时候不能说redis就是单线程的，因为 Redis 6.0 之后的版本抛弃了单线程模型这一设计，原本使用单线程运行的 Redis 也开始选择性地使用多线程模型</strong>。它采用 IO 多路复用机制同时监听多个 socket，将产生事件的 socket 压入内存队列中，事件分派器根据 socket 上的事件类型来选择对应的事件处理器进行处理。</p>
-<p>​    多个 socket 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 socket，会将产生事件的 socket 放入队列中排队，事件分派器每次从队列中取出一个 socket，根据 socket 的事件类型交给对应的事件处理器进行处理。我们通过一张图来了解redis的线程模型：<br><img src="/Users/mydisk/study/hexo/blog/source/images/redis进程.png" alt="redis进程"></p>
+<p>​    多个 socket 可能会并发产生不同的操作，每个操作对应不同的文件事件，但是 IO 多路复用程序会监听多个 socket，会将产生事件的 socket 放入队列中排队，事件分派器每次从队列中取出一个 socket，根据 socket 的事件类型交给对应的事件处理器进行处理。我们通过一张图来了解redis的线程模型：</p>
+<p><img src="/images/redis%E8%BF%9B%E7%A8%8B.png" alt="redis进程 "></p>
 <p>​        首先需要明白的是，redis的通信是通过 socket 来完成的，不懂的同学可以先去看一看 socket 网络编程。推荐一篇博客：<br><a href="https://www.cnblogs.com/clschao/articles/9593164.html" target="_blank" rel="noopener">https://www.cnblogs.com/clschao/articles/9593164.html</a></p>
 <p>​    文件事件处理器的结构包含 4 个部分：</p>
 <ul>
@@ -487,7 +488,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -495,7 +496,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
               </li>
             
             <div class="clearfix"></div>
