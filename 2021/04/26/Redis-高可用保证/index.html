@@ -6,15 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: spring | Tommy的博客</title>
+  <title>Redis-高可用保证 | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tommy的博客">
-<meta property="og:url" content="http://yoursite.com/tags/spring/index.html">
+  <meta name="description" content="​    互联网三高背景下，如何保证 redis 的高并发和高可用？一般通过redis 的主从架构和redis 的集群模式。redis 单机能承载多高的并发？如果单机扛不住如何扛更多的并发？如何保证redis 的高可用不至于挂掉？这些都是这篇文章讨论的问题：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis-高可用保证">
+<meta property="og:url" content="http://yoursite.com/2021/04/26/Redis-%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BF%9D%E8%AF%81/index.html">
 <meta property="og:site_name" content="Tommy的博客">
+<meta property="og:description" content="​    互联网三高背景下，如何保证 redis 的高并发和高可用？一般通过redis 的主从架构和redis 的集群模式。redis 单机能承载多高的并发？如果单机扛不住如何扛更多的并发？如何保证redis 的高可用不至于挂掉？这些都是这篇文章讨论的问题：">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/redis-master-slave.png">
+<meta property="og:image" content="http://yoursite.com/images/redis-master-slave-replication.png">
+<meta property="og:image" content="http://yoursite.com/images/redis-master-slave-replication-detail.png">
+<meta property="og:image" content="http://yoursite.com/images/%E5%9F%BA%E4%BA%8Ezookeeper%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8.png">
+<meta property="article:published_time" content="2021-04-26T07:55:40.000Z">
+<meta property="article:modified_time" content="2021-04-26T07:08:11.335Z">
 <meta property="article:author" content="tommy">
+<meta property="article:tag" content="redis">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/redis-master-slave.png">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -147,60 +157,384 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Redis-高可用保证" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/12/Spring-Aop%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2021-04-12T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/12/Spring-Aop%E8%AF%A6%E8%A7%A3/">Spring-Aop详解</a>
+    <h1 class="article-title" itemprop="name">
+      Redis-高可用保证
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/04/26/Redis-%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BF%9D%E8%AF%81/" class="archive-article-date">
+  	<time datetime="2021-04-26T07:55:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+    <div id="toc-article" class="toc-article">
+        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+        <strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Redis replication 主从架构</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">Redis replication 的核心机制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.2.</span> <span class="toc-text">Redis 主从复制的核心原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.3.</span> <span class="toc-text">主从复制的断点续传</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.4.</span> <span class="toc-text">无磁盘化复制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.5.</span> <span class="toc-text">过期 key 处理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.6.</span> <span class="toc-text">复制的完整流程</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.7.</span> <span class="toc-text">全量复制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.8.</span> <span class="toc-text">增量复制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.9.</span> <span class="toc-text">异步复制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.10.</span> <span class="toc-text">heartbeat</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Redis 哨兵讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">哨兵的介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">哨兵的核心知识</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.3.</span> <span class="toc-text">Redis 哨兵主备切换的数据丢失问题</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.4.</span> <span class="toc-text">sdown 和 odown 转换机制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.5.</span> <span class="toc-text">哨兵集群的自动发现机制</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.6.</span> <span class="toc-text">slave 配置的自动纠正</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.7.</span> <span class="toc-text">slave-&gt;master 选举算法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.8.</span> <span class="toc-text">quorum 和 majority</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.9.</span> <span class="toc-text">configuration epoch</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.10.</span> <span class="toc-text">configuration 传播</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、Redis cluster 集群</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.1.</span> <span class="toc-text">Redis cluster 介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.2.</span> <span class="toc-text">Redis cluster 的高可用与主备切换原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.3.</span> <span class="toc-text">分布式寻址算法</span></a></li></ol></li></ol></li></ol>
+         </div>
+   <script type="text/javascript">
+    function showToc(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:block");
+        show_toc_btn.setAttribute("style","display:none");
+        };
+    function showBtn(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:none");
+        show_toc_btn.setAttribute("style","display:block");
+        };
+   </script>
+      
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​    互联网三高背景下，如何保证 redis 的高并发和高可用？一般通过redis 的主从架构和redis 的集群模式。redis 单机能承载多高的并发？如果单机扛不住如何扛更多的并发？如何保证redis 的高可用不至于挂掉？这些都是这篇文章讨论的问题：</p>
+<a id="more"></a>
+
+<ul>
+<li><p>Redis replication 主从架构</p>
+</li>
+<li><p>Redis 哨兵讲解</p>
+</li>
+<li><p>Redis cluster 集群</p>
+<p> redis 实现<strong>高并发</strong>主要依靠<strong>主从架构</strong>，一主多从，一般来说，很多项目其实就足够了，单主用来写入数据，单机几万 QPS，多从用来查询数据，多个从实例可以提供每秒 10w 的 QPS。</p>
+<p> 如果想要在实现高并发的同时，容纳大量的数据，那么就需要 redis 集群，使用 redis 集群之后，可以提供每秒几十万的读写并发。</p>
+<p>redis 高可用，如果是做主从架构部署，那么加上哨兵就可以了，就可以实现，任何一个实例宕机，可以进行主备切换。</p>
+</li>
+</ul>
+<p><strong>目录：</strong></p>
+<!-- toc -->
+
+<ul>
+<li><a href="#一-redis-replication-主从架构">一、Redis replication 主从架构</a><ul>
+<li><a href="#redis-replication-的核心机制">Redis replication 的核心机制</a></li>
+<li><a href="#redis-主从复制的核心原理">Redis 主从复制的核心原理</a></li>
+<li><a href="#主从复制的断点续传">主从复制的断点续传</a></li>
+<li><a href="#无磁盘化复制">无磁盘化复制</a></li>
+<li><a href="#过期-key-处理">过期 key 处理</a></li>
+<li><a href="#复制的完整流程">复制的完整流程</a></li>
+<li><a href="#全量复制">全量复制</a></li>
+<li><a href="#增量复制">增量复制</a></li>
+<li><a href="#异步复制">异步复制</a></li>
+<li><a href="#heartbeat">heartbeat</a></li>
+</ul>
+</li>
+<li><a href="#二-redis-哨兵讲解">二、Redis 哨兵讲解</a><ul>
+<li><a href="#哨兵的介绍">哨兵的介绍</a></li>
+<li><a href="#哨兵的核心知识">哨兵的核心知识</a></li>
+<li><a href="#redis-哨兵主备切换的数据丢失问题">Redis 哨兵主备切换的数据丢失问题</a></li>
+<li><a href="#sdown-和-odown-转换机制">sdown 和 odown 转换机制</a></li>
+<li><a href="#哨兵集群的自动发现机制">哨兵集群的自动发现机制</a></li>
+<li><a href="#slave-配置的自动纠正">slave 配置的自动纠正</a></li>
+<li><a href="#slave-master-选举算法">slave-&gt;master 选举算法</a></li>
+<li><a href="#quorum-和-majority">quorum 和 majority</a></li>
+<li><a href="#configuration-epoch">configuration epoch</a></li>
+<li><a href="#configuration-传播">configuration 传播</a></li>
+</ul>
+</li>
+<li><a href="#三-redis-cluster-集群">三、Redis cluster 集群</a><ul>
+<li><a href="#redis-cluster-介绍">Redis cluster 介绍</a></li>
+<li><a href="#redis-cluster-的高可用与主备切换原理">Redis cluster 的高可用与主备切换原理</a></li>
+<li><a href="#分布式寻址算法">分布式寻址算法</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h4><span id="一-redis-replication-主从架构">一、Redis replication 主从架构</span></h4><p>​    单机的 Redis，能够承载的 QPS 大概就在上万到几万不等。对于缓存来说，一般都是用来支撑<strong>读高并发</strong>的。因此架构做成主从(master-slave)架构，一主多从，主负责写，并且将数据复制到其它的 slave 节点，从节点负责读。所有的<strong>读请求全部走从节点</strong>。这样也可以很轻松实现水平扩容，<strong>支撑读高并发</strong>。</p>
+<h6><span id="redis-replication-的核心机制">Redis replication 的核心机制</span></h6><ul>
+<li>Redis 采用<strong>异步方式</strong>复制数据到 slave 节点，不过 Redis2.8 开始，slave node 会周期性地确认自己每次复制的数据量；</li>
+<li>一个 master node 是可以配置多个 slave node 的；</li>
+<li>slave node 也可以连接其他的 slave node；</li>
+<li>slave node 做复制的时候，不会 block master node 的正常工作；</li>
+<li>slave node 在做复制的时候，也不会 block 对自己的查询操作，它会用旧的数据集来提供服务；但是复制完成的时候，需要删除旧数据集，加载新数据集，这个时候就会暂停对外服务了；</li>
+<li>slave node 主要用来进行横向扩容，做读写分离，扩容的 slave node 可以提高读的吞吐量。</li>
+</ul>
+<p>需要注意的是：建议必须<strong>开启</strong> master node 的<a href="https://doocs.gitee.io/advanced-java/#/docs/high-concurrency/redis-persistence" target="_blank" rel="noopener">持久化</a>，不建议用 slave node 作为 master node 的数据热备，因为那样的话，如果你关掉 master 的持久化，可能在 master 宕机重启的时候数据是空的，然后可能一经过复制， slave node 的数据也丢了。</p>
+<p>​    另外，master 的各种备份方案，也需要做。万一本地的所有文件丢失了，从备份中挑选一份 rdb 去恢复 master，这样才能<strong>确保启动的时候，是有数据的</strong>，即使采用了后续讲解的<a href="https://doocs.gitee.io/advanced-java/#/docs/high-concurrency/redis-sentinel" target="_blank" rel="noopener">高可用机制</a>，slave node 可以自动接管 master node，但也可能 sentinel 还没检测到 master failure，master node 就自动重启了，还是可能导致上面所有的 slave node 数据被清空。</p>
+<p><img src="/images/redis-master-slave.png" alt="redis-master-slave"></p>
+<h6><span id="redis-主从复制的核心原理">Redis 主从复制的核心原理</span></h6><p>​    当启动一个 slave node 的时候，它会发送一个 <code>PSYNC</code> 命令给 master node。如果这是 slave node 初次连接到 master node，那么会触发一次 <code>full resynchronization</code> 全量复制。此时 master 会启动一个后台线程，开始生成一份 <code>RDB</code> 快照文件，同时还会将从客户端 client 新收到的所有写命令缓存在内存中。 <code>RDB</code> 文件生成完毕后， master 会将这个 <code>RDB</code> 发送给 slave，slave 会先<strong>写入本地磁盘，然后再从本地磁盘加载到内存</strong>中，接着 master 会将内存中缓存的写命令发送到 slave，slave 也会同步这些数据。slave node 如果跟 master node 有网络故障，断开了连接，会自动重连，连接之后 master node 仅会复制给 slave 部分缺少的数据。如下图所示：</p>
+<p><img src="/images/redis-master-slave-replication.png" alt="redis-master-slave-replication "></p>
+<p>下面讲解几个知识点：</p>
+<h6><span id="主从复制的断点续传">主从复制的断点续传</span></h6><p> 从 Redis2.8 开始，就支持主从复制的断点续传，如果主从复制过程中，网络连接断掉了，那么可以接着上次复制的地方，继续复制下去，而不是从头开始复制一份。</p>
+<p>master node 会在内存中维护一个 backlog，master 和 slave 都会保存一个 replica offset 还有一个 master run id，offset 就是保存在 backlog 中的。如果 master 和 slave 网络连接断掉了，slave 会让 master 从上次 replica offset 开始继续复制，如果没有找到对应的 offset，那么就会执行一次 <code>resynchronization</code> 。</p>
+<p><code>如果根据 host+ip 定位 master node，是不靠谱的，如果 master node 重启或者数据出现了变化，那么 slave node 应该根据不同的 run id 区分。</code></p>
+<h6><span id="无磁盘化复制">无磁盘化复制</span></h6><p>​    master 在内存中直接创建 <code>RDB</code> ，然后发送给 slave，不会在自己本地落地磁盘了。只需要在配置文件中开启 <code>repl-diskless-sync yes</code> 即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">repl-diskless-sync yes</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待 5s 后再开始复制，因为要等更多 slave 重新连接过来</span></span><br><span class="line">repl-diskless-sync-delay 5</span><br></pre></td></tr></table></figure>
+
+<h6><span id="过期-key-处理">过期 key 处理</span></h6><p>​    slave 不会过期 key，只会等待 master 过期 key。如果 master 过期了一个 key，或者通过 LRU 淘汰了一个 key，那么会模拟一条 del 命令发送给 slave。</p>
+<h6><span id="复制的完整流程">复制的完整流程</span></h6><p>​    slave node 启动时，会在自己本地保存 master node 的信息，包括 master node 的 <code>host</code> 和 <code>ip</code> ，但是复制流程没开始。</p>
+<p>slave node 内部有个定时任务，每秒检查是否有新的 master node 要连接和复制，如果发现，就跟 master node 建立 socket 网络连接。然后 slave node 发送 <code>ping</code> 命令给 master node。如果 master 设置了 requirepass，那么 slave node 必须发送 masterauth 的口令过去进行认证。master node <strong>第一次执行全量复制</strong>，将所有数据发给 slave node。而在后续，master node 持续将写命令，异步复制给 slave node。</p>
+<p><img src="/images/redis-master-slave-replication-detail.png" alt="redis-master-slave-replication-detail "></p>
+<h6><span id="全量复制">全量复制</span></h6><ul>
+<li><p>master 执行 bgsave ，在本地生成一份 rdb 快照文件。</p>
+</li>
+<li><p>master node 将 rdb 快照文件发送给 slave node，如果 rdb 复制时间超过 60 秒（repl-timeout），那么 slave node 就会认为复制失败，可以适当调大这个参数(对于千兆网卡的机器，一般每秒传输 100MB，6G 文件，很可能超过 60s)</p>
+</li>
+<li><p>master node 在生成 rdb 时，会将所有新的写命令缓存在内存中，在 slave node 保存了 rdb 之后，再将新的写命令复制给 slave node。</p>
+</li>
+<li><p>如果在复制期间，内存缓冲区持续消耗超过 64MB，或者一次性超过 256MB，那么停止复制，复制失败。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client-output-buffer-limit slave 256MB 64MB 60</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>slave node 接收到 rdb 之后，清空自己的旧数据，然后重新加载 rdb 到自己的内存中，同时<strong>基于旧的数据版本</strong>对外提供服务。</p>
+</li>
+<li><p>如果 slave node 开启了 AOF，那么会立即执行 BGREWRITEAOF，重写 AOF。</p>
+</li>
+</ul>
+<h6><span id="增量复制">增量复制</span></h6><ul>
+<li>如果全量复制过程中，master-slave 网络连接断掉，那么 slave 重新连接 master 时，会触发增量复制。</li>
+<li>master 直接从自己的 backlog 中获取部分丢失的数据，发送给 slave node，默认 backlog 就是 1MB。</li>
+<li>master 就是根据 slave 发送的 psync 中的 offset 来从 backlog 中获取数据的。</li>
+</ul>
+<h6><span id="异步复制">异步复制</span></h6><p>​    master 每次接收到写命令之后，先在内部写入数据，然后异步发送给 slave node。</p>
+<h6><span id="heartbeat">heartbeat</span></h6><p>主从节点互相都会发送 heartbeat 信息。</p>
+<p>master 默认每隔 10 秒发送一次 heartbeat，slave node 每隔 1 秒发送一个 heartbeat。</p>
+<h4><span id="二-redis-哨兵讲解">二、Redis 哨兵讲解</span></h4><p>​    如果系统在 365 天内，有 99.99% 的时间，都是可以哗哗对外提供服务的，那么就说系统是高可用的。</p>
+<p>一个 slave 挂掉了，是不会影响可用性的，还有其它的 slave 在提供相同数据下的相同的对外的查询服务。</p>
+<p>​    但是，如果 master node 死掉了，会怎么样？没法写数据了，写缓存的时候，全部失效了。slave node 还有什么用呢，没有 master 给它们复制数据了，系统相当于不可用了。</p>
+<p>​    Redis 的高可用架构，叫做 <code>failover</code> <strong>故障转移</strong>，也可以叫做主备切换。</p>
+<p>​    master node 在故障时，自动检测，并且将某个 slave node 自动切换为 master node 的过程，叫做主备切换。这个过程，实现了 Redis 的主从架构下的高可用。</p>
+<p>​    这种自动检测和自动转移就是靠哨兵实现的。</p>
+<h6><span id="哨兵的介绍">哨兵的介绍</span></h6><p><strong>sentinel</strong>，中文名是哨兵。哨兵是 Redis 集群架构中非常重要的一个组件，主要有以下功能：</p>
+<ul>
+<li>集群监控：负责监控 Redis master 和 slave 进程是否正常工作。</li>
+<li>消息通知：如果某个 Redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
+<li>故障转移：如果 master node 挂掉了，会自动转移到 slave node 上。</li>
+<li>配置中心：如果故障转移发生了，通知 client 客户端新的 master 地址。</li>
+</ul>
+<p>哨兵用于实现 Redis 集群的高可用，本身也是分布式的，作为一个哨兵集群去运行，互相协同工作。</p>
+<ul>
+<li>故障转移时，判断一个 master node 是否宕机了，需要大部分的哨兵都同意才行，涉及到了分布式选举的问题。</li>
+<li>即使部分哨兵节点挂掉了，哨兵集群还是能正常工作的，因为如果一个作为高可用机制重要组成部分的故障转移系统本身是单点的，那就很坑爹了。</li>
+</ul>
+<h6><span id="哨兵的核心知识">哨兵的核心知识</span></h6><ul>
+<li>哨兵至少需要 3 个实例，来保证自己的健壮性。</li>
+<li>哨兵 + Redis 主从的部署架构，是<strong>不保证数据零丢失</strong>的，只能保证 Redis 集群的高可用性。</li>
+<li>对于哨兵 + Redis 主从这种复杂的部署架构，尽量在测试环境和生产环境，都进行充足的测试和演练。</li>
+</ul>
+<p>哨兵集群必须部署 2 个以上节点，如果哨兵集群仅仅部署了 2 个哨兵实例，quorum = 1。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+----+         +----+</span><br><span class="line">| M1 |---------| R1 |</span><br><span class="line">| S1 |         | S2 |</span><br><span class="line">+----+         +----+</span><br></pre></td></tr></table></figure>
+
+<p>配置 <code>quorum=1</code> ，如果 master 宕机， s1 和 s2 中只要有 1 个哨兵认为 master 宕机了，就可以进行切换，同时 s1 和 s2 会选举出一个哨兵来执行故障转移。但是同时这个时候，需要 majority，也就是大多数哨兵都是运行的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">2 </span>个哨兵，majority=<span class="number">2</span></span><br><span class="line"><span class="symbol">3 </span>个哨兵，majority=<span class="number">2</span></span><br><span class="line"><span class="symbol">4 </span>个哨兵，majority=<span class="number">2</span></span><br><span class="line"><span class="symbol">5 </span>个哨兵，majority=<span class="number">3</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>如果此时仅仅是 M1 进程宕机了，哨兵 s1 正常运行，那么故障转移是 OK 的。但是如果是整个 M1 和 S1 运行的机器宕机了，那么哨兵只有 1 个，此时就没有 majority 来允许执行故障转移，虽然另外一台机器上还有一个 R1，但是故障转移不会执行。</p>
+<p>经典的 3 节点哨兵集群是这样的：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">       +----+</span><br><span class="line">       | M1 |</span><br><span class="line">       | S1 |</span><br><span class="line">       +----+</span><br><span class="line">          |</span><br><span class="line">+----+    |    +----+</span><br><span class="line">| R2 |----+----| R3 |</span><br><span class="line">| S2 |         | S3 |</span><br><span class="line">+----+         +----+</span><br></pre></td></tr></table></figure>
+
+<p>配置 <code>quorum=2</code> ，如果 M1 所在机器宕机了，那么三个哨兵还剩下 2 个，S2 和 S3 可以一致认为 master 宕机了，然后选举出一个来执行故障转移，同时 3 个哨兵的 majority 是 2，所以还剩下的 2 个哨兵运行着，就可以允许执行故障转移。</p>
+<h6><span id="redis-哨兵主备切换的数据丢失问题">Redis 哨兵主备切换的数据丢失问题</span></h6><p><strong><u>导致数据丢失的两种情况</u></strong></p>
+<ul>
+<li><p>异步复制导致的数据丢失</p>
+<p>因为 master-&gt;slave 的复制是异步的，所以可能有部分数据还没复制到 slave，master 就宕机了，此时这部分数据就丢失了。</p>
+</li>
+<li><p>脑裂导致的数据丢失</p>
+<p>脑裂，也就是说，某个 master 所在机器突然<strong>脱离了正常的网络</strong>，跟其他 slave 机器不能连接，但是实际上 master 还运行着。此时哨兵可能就会<strong>认为</strong> master 宕机了，然后开启选举，将其他 slave 切换成了 master。这个时候，集群里就会有两个 master ，也就是所谓的<strong>脑裂</strong>。</p>
+<p>此时虽然某个 slave 被切换成了 master，但是可能 client 还没来得及切换到新的 master，还继续向旧 master 写数据。因此旧 master 再次恢复的时候，会被作为一个 slave 挂到新的 master 上去，自己的数据会清空，重新从新的 master 复制数据。而新的 master 并没有后来 client 写入的数据，因此，这部分数据也就丢失了。</p>
+</li>
+</ul>
+<p><strong><u>数据丢失问题的解决方案</u></strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min-slaves-to-write 1</span><br><span class="line">min-slaves-max-lag 10</span><br></pre></td></tr></table></figure>
+
+<p>表示，要求至少有 1 个 slave，数据复制和同步的延迟不能超过 10 秒。</p>
+<p>如果说一旦所有的 slave，数据复制和同步的延迟都超过了 10 秒钟，那么这个时候，master 就不会再接收任何请求了。</p>
+<ul>
+<li>减少异步复制数据的丢失</li>
+</ul>
+<p>有了 <code>min-slaves-max-lag</code> 这个配置，就可以确保说，一旦 slave 复制数据和 ack 延时太长，就认为可能 master 宕机后损失的数据太多了，那么就拒绝写请求，这样可以把 master 宕机时由于部分数据未同步到 slave 导致的数据丢失降低的可控范围内。</p>
+<ul>
+<li>减少脑裂的数据丢失</li>
+</ul>
+<p>如果一个 master 出现了脑裂，跟其他 slave 丢了连接，那么上面两个配置可以确保说，如果不能继续给指定数量的 slave 发送数据，而且 slave 超过 10 秒没有给自己 ack 消息，那么就直接拒绝客户端的写请求。因此在脑裂场景下，最多就丢失 10 秒的数据。</p>
+<h6><span id="sdown-和-odown-转换机制">sdown 和 odown 转换机制</span></h6><ul>
+<li><p>sdown 是主观宕机，就一个哨兵如果自己觉得一个 master 宕机了，那么就是主观宕机</p>
+</li>
+<li><p>odown 是客观宕机，如果 quorum 数量的哨兵都觉得一个 master 宕机了，那么就是客观宕机</p>
+<p>sdown 达成的条件很简单，如果一个哨兵 ping 一个 master，超过了 <code>is-master-down-after-milliseconds</code> 指定的毫秒数之后，就主观认为 master 宕机了；如果一个哨兵在指定时间内，收到了 quorum 数量的其它哨兵也认为那个 master 是 sdown 的，那么就认为是 odown 了。</p>
+</li>
+</ul>
+<h6><span id="哨兵集群的自动发现机制">哨兵集群的自动发现机制</span></h6><p>​    哨兵互相之间的发现，是通过 Redis 的 <code>pub/sub</code> 系统实现的，每个哨兵都会往 <code>__sentinel__:hello</code> 这个 channel 里发送一个消息，这时候所有其他哨兵都可以消费到这个消息，并感知到其他的哨兵的存在。</p>
+<p>   每隔两秒钟，每个哨兵都会往自己监控的某个 master+slaves 对应的 <code>__sentinel__:hello</code> channel 里<strong>发送一个消息</strong>，内容是自己的 host、ip 和 runid 还有对这个 master 的监控配置。</p>
+<p>   每个哨兵也会去<strong>监听</strong>自己监控的每个 master+slaves 对应的 <code>__sentinel__:hello</code> channel，然后去感知到同样在监听这个 master+slaves 的其他哨兵的存在。</p>
+<p>   每个哨兵还会跟其他哨兵交换对 <code>master</code> 的监控配置，互相进行监控配置的同步。</p>
+<h6><span id="slave-配置的自动纠正">slave 配置的自动纠正</span></h6><p>​    哨兵会负责自动纠正 slave 的一些配置，比如 slave 如果要成为潜在的 master 候选人，哨兵会确保 slave 复制现有 master 的数据；如果 slave 连接到了一个错误的 master 上，比如故障转移之后，那么哨兵会确保它们连接到正确的 master 上。</p>
+<h6><span id="slave-gtmaster-选举算法">slave-&gt;master 选举算法</span></h6><p>​    如果一个 master 被认为 odown 了，而且 majority 数量的哨兵都允许主备切换，那么某个哨兵就会执行主备切换操作，此时首先要选举一个 slave 来，会考虑 slave 的一些信息：</p>
+<ul>
+<li><p>跟 master 断开连接的时长</p>
+</li>
+<li><p>slave 优先级</p>
+</li>
+<li><p>复制 offset</p>
+</li>
+<li><p>run id</p>
+<p> 如果一个 slave 跟 master 断开连接的时间已经超过了 <code>down-after-milliseconds</code> 的 10 倍，外加 master 宕机的时长，那么 slave 就被认为不适合选举为 master。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(down-after-milliseconds * 10) + milliseconds_since_master_is_in_SDOWN_state</span><br></pre></td></tr></table></figure>
+
+<p>接下来会对 slave 进行排序：</p>
+<ul>
+<li>按照 slave 优先级进行排序，slave priority 越低，优先级就越高。</li>
+<li>如果 slave priority 相同，那么看 replica offset，哪个 slave 复制了越多的数据，offset 越靠后，优先级就越高。</li>
+<li>如果上面两个条件都相同，那么选择一个 run id 比较小的那个 slave。</li>
+</ul>
+<h6><span id="quorum-和-majority">quorum 和 majority</span></h6><p>每次一个哨兵要做主备切换，首先需要 quorum 数量的哨兵认为 odown，然后选举出一个哨兵来做切换，这个哨兵还需要得到 majority 哨兵的授权，才能正式执行切换。</p>
+<p>如果 quorum &lt; majority，比如 5 个哨兵，majority 就是 3，quorum 设置为 2，那么就 3 个哨兵授权就可以执行切换。</p>
+<p>但是如果 quorum &gt;= majority，那么必须 quorum 数量的哨兵都授权，比如 5 个哨兵，quorum 是 5，那么必须 5 个哨兵都同意授权，才能执行切换。</p>
+<h6><span id="configuration-epoch">configuration epoch</span></h6><p>哨兵会对一套 Redis master+slaves 进行监控，有相应的监控的配置。</p>
+<p>执行切换的那个哨兵，会从要切换到的新 master（salve-&gt;master）那里得到一个 configuration epoch，这就是一个 version 号，每次切换的 version 号都必须是唯一的。</p>
+<p>如果第一个选举出的哨兵切换失败了，那么其他哨兵，会等待 failover-timeout 时间，然后接替继续执行切换，此时会重新获取一个新的 configuration epoch，作为新的 version 号。</p>
+<h6><span id="configuration-传播">configuration 传播</span></h6><p>哨兵完成切换之后，会在自己本地更新生成最新的 master 配置，然后同步给其他的哨兵，就是通过之前说的 <code>pub/sub</code> 消息机制。</p>
+<p>这里之前的 version 号就很重要了，因为各种消息都是通过一个 channel 去发布和监听的，所以一个哨兵完成一次新的切换之后，新的 master 配置是跟着新的 version 号的。其他的哨兵都是根据版本号的大小来更新自己的 master 配置的。</p>
+<h4><span id="三-redis-cluster-集群">三、Redis cluster 集群</span></h4><p>   如果你的数据量很少，主要是承载高并发高性能的场景，比如你的缓存一般就几个 G，单机就足够了，可以使用 replication，一个 master 多个 slaves，要几个 slave 跟你要求的读吞吐量有关，然后自己搭建一个 sentinel 集群去保证 Redis 主从架构的高可用性。</p>
+<p>   Redis cluster，主要是针对<strong>海量数据+高并发+高可用</strong>的场景。Redis cluster 支撑 N 个 Redis master node，每个 master node 都可以挂载多个 slave node。这样整个 Redis 就可以横向扩容了。如果你要支撑更大数据量的缓存，那就横向扩容更多的 master 节点，每个 master 节点就能存放更多的数据了。</p>
+<h6><span id="redis-cluster-介绍">Redis cluster 介绍</span></h6><ul>
+<li>自动将数据进行分片，每个 master 上放一部分数据</li>
+<li>提供内置的高可用支持，部分 master 不可用时，还是可以继续工作的</li>
+</ul>
+<p>在 Redis cluster 架构下，每个 Redis 要放开两个端口号，比如一个是 6379，另外一个就是 加 1w 的端口号，比如 16379。</p>
+<p>16379 端口号是用来进行节点间通信的，也就是 cluster bus 的东西，cluster bus 的通信，用来进行故障检测、配置更新、故障转移授权。cluster bus 用了另外一种二进制的协议， <code>gossip</code> 协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间。</p>
+<p>​    我们先来了解下<strong><u>集群的基本通信原理</u></strong>：</p>
+<p>集群元数据的维护有两种方式：集中式、Gossip 协议。Redis cluster 节点间采用 gossip 协议进行通信。</p>
+<p><strong><u>集中式</u></strong></p>
+<p><strong>集中式</strong>是将集群元数据（节点信息、故障等等）几种存储在某个节点上。集中式元数据集中存储的一个典型代表，就是大数据领域的 <code>storm</code> 。它是分布式的大数据实时计算引擎，是集中式的元数据存储的结构，底层基于 zookeeper（分布式协调的中间件）对所有元数据进行存储维护，如下图：</p>
+<p><img src="/images/%E5%9F%BA%E4%BA%8Ezookeeper%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8.png" alt="基于zookeeper的元数据存储 "></p>
+<p><strong>集中式</strong>的<strong>好处</strong>在于，元数据的读取和更新，时效性非常好，一旦元数据出现了变更，就立即更新到集中式的存储中，其它节点读取的时候就可以感知到；<strong>不好</strong>在于，所有的元数据的更新压力全部集中在一个地方，可能会导致元数据的存储有压力。</p>
+<p><strong><u>gossip 协议</u></strong></p>
+<p><code>gossip</code> 协议是所有节点都持有一份元数据，不同的节点如果出现了元数据的变更，就不断将元数据发送给其它的节点，让其它节点也进行元数据的变更。</p>
+<p>gossip 好处在于，元数据的更新比较分散，不是集中在一个地方，更新请求会陆陆续续打到所有节点上去更新，降低了压力；不好在于，元数据的更新有延时，可能导致集群中的一些操作会有一些滞后。</p>
+<p>Redis 维护集群元数据维护采用的就是<code>gossip</code> 协议。每个节点需要开放两个端口：</p>
+<ul>
+<li>10000 端口：每个节点都有一个专门用于节点间通信的端口，就是自己提供服务的端口号+10000，比如 7001，那么用于节点间通信的就是 17001 端口。每个节点每隔一段时间都会往另外几个节点发送 <code>ping</code> 消息，同时其它几个节点接收到 <code>ping</code> 之后返回 <code>pong</code> 。</li>
+<li>交换的信息：信息包括故障信息，节点的增加和删除，hash slot 信息等等。</li>
+</ul>
+<p>gossip 协议包含多种消息，包含 <code>ping</code> , <code>pong</code> , <code>meet</code> , <code>fail</code> 等等。</p>
+<ul>
+<li>meet：某个节点发送 meet 给新加入的节点，让新节点加入集群中，然后新节点就会开始与其它节点进行通信。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Redis-trib.rb add-node</span><br></pre></td></tr></table></figure>
+
+<p>其实内部就是发送了一个 gossip meet 消息给新加入的节点，通知那个节点去加入我们的集群。</p>
+<ul>
+<li>ping：每个节点都会频繁给其它节点发送 ping，其中包含自己的状态还有自己维护的集群元数据，互相通过 ping 交换元数据。</li>
+<li>pong：返回 ping 和 meeet，包含自己的状态和其它信息，也用于信息广播和更新。</li>
+<li>fail：某个节点判断另一个节点 fail 之后，就发送 fail 给其它节点，通知其它节点说，某个节点宕机啦。</li>
+</ul>
+<p><strong><u>ping</u></strong></p>
+<p>ping 时要携带一些元数据，如果很频繁，可能会加重网络负担。</p>
+<p>每个节点每秒会执行 10 次 ping，每次会选择 5 个最久没有通信的其它节点。当然如果发现某个节点通信延时达到了 <code>cluster_node_timeout / 2</code> ，那么立即发送 ping，避免数据交换延时过长，落后的时间太长了。比如说，两个节点之间都 10 分钟没有交换数据了，那么整个集群处于严重的元数据不一致的情况，就会有问题。所以 <code>cluster_node_timeout</code> 可以调节，如果调得比较大，那么会降低 ping 的频率。</p>
+<p>每次 ping，会带上自己节点的信息，还有就是带上 1/10 其它节点的信息，发送出去，进行交换。至少包含 <code>3</code> 个其它节点的信息，最多包含 <code>总节点数减 2</code> 个其它节点的信息。</p>
+<h6><span id="redis-cluster-的高可用与主备切换原理">Redis cluster 的高可用与主备切换原理</span></h6><p>Redis cluster 的高可用的原理，几乎跟哨兵是类似的。</p>
+<p><strong>判断节点宕机</strong><br>如果一个节点认为另外一个节点宕机，那么就是 pfail ，主观宕机。如果多个节点都认为另外一个节点宕机了，那么就是 fail ，客观宕机，跟哨兵的原理几乎一样，sdown，odown。</p>
+<p>在 cluster-node-timeout 内，某个节点一直没有返回 pong ，那么就被认为 pfail 。</p>
+<p>如果一个节点认为某个节点 pfail 了，那么会在 gossip ping 消息中， ping 给其他节点，如果超过半数的节点都认为 pfail 了，那么就会变成 fail 。</p>
+<p><strong>从节点过滤</strong><br>对宕机的 master node，从其所有的 slave node 中，选择一个切换成 master node。</p>
+<p>检查每个 slave node 与 master node 断开连接的时间，如果超过了 cluster-node-timeout * cluster-slave-validity-factor ，那么就没有资格切换成 master 。</p>
+<p><strong>从节点选举</strong><br>每个从节点，都根据自己对 master 复制数据的 offset，来设置一个选举时间，offset 越大（复制数据越多）的从节点，选举时间越靠前，优先进行选举。</p>
+<p>所有的 master node 开始 slave 选举投票，给要进行选举的 slave 进行投票，如果大部分 master node （N/2 + 1） 都投票给了某个从节点，那么选举通过，那个从节点可以切换成 master。</p>
+<p>从节点执行主备切换，从节点切换为主节点。</p>
+<p><strong>与哨兵比较</strong><br>整个流程跟哨兵相比，非常类似，所以说，Redis cluster 功能强大，直接集成了 replication 和 sentinel 的功能。</p>
+<h6><span id="分布式寻址算法">分布式寻址算法</span></h6><ul>
+<li>hash 算法（大量缓存重建）</li>
+<li>一致性 hash 算法（自动缓存迁移）+ 虚拟节点（自动负载均衡）</li>
+<li>Redis cluster 的 hash slot 算法</li>
+</ul>
+<p><u><strong>hash 算法</strong></u></p>
+<p>来了一个 key，首先计算 hash 值，然后对节点数取模。然后打在不同的 master 节点上。一旦某一个 master 节点宕机，所有请求过来，都会基于最新的剩余 master 节点数去取模，尝试去取数据。这会导致<strong>大部分的请求过来，全部无法拿到有效的缓存</strong>，导致大量的流量涌入数据库。</p>
+<p><u><strong>一致性 hash 算法</strong></u></p>
+<p>一致性 hash 算法将整个 hash 值空间组织成一个虚拟的圆环，整个空间按顺时针方向组织，下一步将各个 master 节点（使用服务器的 ip 或主机名）进行 hash。这样就能确定每个节点在其哈希环上的位置。</p>
+<p>来了一个 key，首先计算 hash 值，并确定此数据在环上的位置，从此位置沿环<strong>顺时针“行走”</strong>，遇到的第一个 master 节点就是 key 所在位置。</p>
+<p>在一致性哈希算法中，如果一个节点挂了，受影响的数据仅仅是此节点到环空间前一个节点（沿着逆时针方向行走遇到的第一个节点）之间的数据，其它不受影响。增加一个节点也同理。</p>
+<p>燃鹅，一致性哈希算法在节点太少时，容易因为节点分布不均匀而造成<strong>缓存热点</strong>的问题。为了解决这种热点问题，一致性 hash 算法引入了虚拟节点机制，即对每一个节点计算多个 hash，每个计算结果位置都放置一个虚拟节点。这样就实现了数据的均匀分布，负载均衡。</p>
+<p><u><strong>Redis cluster 的 hash slot 算法</strong></u></p>
+<p>Redis cluster 有固定的 <code>16384</code> 个 hash slot，对每个 <code>key</code> 计算 <code>CRC16</code> 值，然后对 <code>16384</code> 取模，可以获取 key 对应的 hash slot。</p>
+<p>Redis cluster 中每个 master 都会持有部分 slot，比如有 3 个 master，那么可能每个 master 持有 5000 多个 hash slot。hash slot 让 node 的增加和移除很简单，增加一个 master，就将其他 master 的 hash slot 移动部分过去，减少一个 master，就将它的 hash slot 移动到其他 master 上去。移动 hash slot 的成本是非常低的。客户端的 api，可以对指定的数据，让他们走同一个 hash slot，通过 <code>hash tag</code> 来实现。</p>
+<p>任何一台机器宕机，另外两个节点，不影响的。因为 key 找的是 hash slot，不是机器。</p>
+
+      
+
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2021/04/21/Redis-%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E5%92%8C%E5%B9%B6%E5%8F%91%E7%AB%9E%E4%BA%89%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis-双写一致性和并发竞争问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -223,9 +557,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
