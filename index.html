@@ -58,7 +58,7 @@
 			</ul>
 		</nav>
 		<nav>
-			<a>总文章数 13</a>
+			<a>总文章数 14</a>
 		</nav>
 		<nav class="header-smart-menu">
     		
@@ -148,6 +148,86 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-分布式 -   分布式锁的实现方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">分布式 -   分布式锁的实现方式</a>
+    </h1>
+  
+
+        
+        <a href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-04-27T03:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​        由于目前几乎很多大型网站或者应用都是采用分布式部署的，那么如何保证数据一致性问题一直是一个比较重要的话题。分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。”所以，很多系统在设计之初就要对这三者做出取舍。那么在绝大多数的场景中，都需要牺牲强一致性来换取系统的高可用性，系统往往只需要保证“最终一致性”，只要这个最终时间是在用户可以接受的范围内即可。保证数据的最终一致性可以通过分布式事务、分布式锁来实现，这篇文章就来描述分布式锁的三种实现方式，这三种实现方式分别为：</p>
+        
+          <a class="article-more-a" href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/#more">more >></a>
+        
+      
+
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-Redis-高可用保证" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -840,87 +920,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/04/09/JCF-%E4%BB%80%E4%B9%88%E6%98%AFMap/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JCF-什么是Set" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/">JCF-什么是Set</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/" class="archive-article-date">
-  	<time datetime="2020-04-07T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-07</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们在介绍Collection的时候对</p>
-<p>Set的了解是：存无序、唯一不可重复的元素的 Collection。通过这篇文章我们来详细理解Set接口以及实现类，通过这篇文章，我们可以了解到以下几点：</p>
-        
-          <a class="article-more-a" href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/#more">more >></a>
-        
-      
-
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/">展开全文 >></a>
         </p>
       
 

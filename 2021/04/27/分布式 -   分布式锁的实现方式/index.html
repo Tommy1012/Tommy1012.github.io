@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>分布式 - nginx概述 | Tommy的博客</title>
+  <title>分布式 -   分布式锁的实现方式 | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="​        说到负载均衡，很多人可能第一个想到的就是Nginx和Spring Cloud Ribbon,但是对于服务端的更多熟悉的是Nginx，今天我们站在开发者的角度来稍微详细的介绍下Nginx，通过这篇文章，我们可以了解到：">
+  <meta name="description" content="​        由于目前几乎很多大型网站或者应用都是采用分布式部署的，那么如何保证数据一致性问题一直是一个比较重要的话题。分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。”所以，很多系统在设计之初就要对这三者做出取舍。那么在绝大多数的场景中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式 - nginx概述">
-<meta property="og:url" content="http://yoursite.com/2020/04/13/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20nginx%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:title" content="分布式 -   分布式锁的实现方式">
+<meta property="og:url" content="http://yoursite.com/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Tommy的博客">
-<meta property="og:description" content="​        说到负载均衡，很多人可能第一个想到的就是Nginx和Spring Cloud Ribbon,但是对于服务端的更多熟悉的是Nginx，今天我们站在开发者的角度来稍微详细的介绍下Nginx，通过这篇文章，我们可以了解到：">
+<meta property="og:description" content="​        由于目前几乎很多大型网站或者应用都是采用分布式部署的，那么如何保证数据一致性问题一直是一个比较重要的话题。分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。”所以，很多系统在设计之初就要对这三者做出取舍。那么在绝大多数的场景中">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://yoursite.com/images/%E6%AD%A3%E5%8F%8D%E4%BB%A3%E7%90%86.jpeg">
-<meta property="article:published_time" content="2020-04-13T06:33:40.000Z">
-<meta property="article:modified_time" content="2020-06-15T13:49:36.000Z">
+<meta property="article:published_time" content="2021-04-27T03:33:40.000Z">
+<meta property="article:modified_time" content="2021-04-27T03:34:17.805Z">
 <meta property="article:author" content="tommy">
 <meta property="article:tag" content="分布式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/%E6%AD%A3%E5%8F%8D%E4%BB%A3%E7%90%86.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -154,20 +152,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-分布式 - nginx概述" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-分布式 -   分布式锁的实现方式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      分布式 - nginx概述
+      分布式 -   分布式锁的实现方式
     </h1>
   
 
         
-        <a href="/2020/04/13/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20nginx%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  	<time datetime="2020-04-13T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-13</time>
+        <a href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-04-27T03:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
 </a>
         
       </header>
@@ -181,7 +179,7 @@
     <div id="toc-article" class="toc-article">
         <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
         <strong class="toc-title">文章目录</strong>
-           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Nginx概要</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">是什么：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Nginx详解</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">正向代理和反向代理：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">常见负载均衡的算法：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、常见负载均衡框架对比</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.1.</span> <span class="toc-text">Ribbon:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.2.</span> <span class="toc-text">LVS:</span></a></li></ol></li></ol></li></ol>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、基于数据库实现分布式锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、基于缓存实现分布式锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、基于Zookeeper实现分布式锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">4.</span> <span class="toc-text">四、三种分布式锁的异同比较</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#"><span class="toc-number"></span> <span class="toc-text">三种方案的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">从理解的难易程度角度（从低到高）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">从实现的复杂性角度（从低到高）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">从性能角度（从高到低）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">4.</span> <span class="toc-text">从可靠性角度（从高到低）</span></a></li></ol>
          </div>
    <script type="text/javascript">
     function showToc(){
@@ -201,109 +199,75 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <p>​        说到负载均衡，很多人可能第一个想到的就是Nginx和Spring Cloud Ribbon,但是对于服务端的更多熟悉的是Nginx，今天我们站在开发者的角度来稍微详细的介绍下Nginx，通过这篇文章，我们可以了解到：</p>
+        <p>​        由于目前几乎很多大型网站或者应用都是采用分布式部署的，那么如何保证数据一致性问题一直是一个比较重要的话题。分布式的CAP理论告诉我们“任何一个分布式系统都无法同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance），最多只能同时满足两项。”所以，很多系统在设计之初就要对这三者做出取舍。那么在绝大多数的场景中，都需要牺牲强一致性来换取系统的高可用性，系统往往只需要保证“最终一致性”，只要这个最终时间是在用户可以接受的范围内即可。保证数据的最终一致性可以通过分布式事务、分布式锁来实现，这篇文章就来描述分布式锁的三种实现方式，这三种实现方式分别为：</p>
 <a id="more"></a>
 
 <ul>
-<li>Nginx是做什么的</li>
-<li>Nginx的正向代理和反向代理、反向代理中几种常见的负载均衡算法</li>
-<li>和其他负载均衡项目的对比</li>
+<li><p>基于数据库实现分布式锁</p>
+</li>
+<li><p>基于缓存实现分布式锁 </p>
+</li>
+<li><p>基于Zookeeper实现分布式锁</p>
+<p> 大多数时候，保证最终一致性就需要保证一个方法在同一时间内只能被同一个线程执行。在单机环境中，Java中其实提供了很多并发处理相关的API，但是这些API在分布式场景中就无能为力了。也就是说单纯的Java Api并不能提供分布式锁的能力。所以针对分布式锁的实现目前有多种方案。</p>
+</li>
 </ul>
-<p><strong>目录：</strong></p>
-<!-- toc -->
+<h4><span id="一-基于数据库实现分布式锁">一、基于数据库实现分布式锁</span></h4><p>这是实现分布式锁最简单的方法，最简单的方式可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。</p>
+<p>当我们要锁住某个方法或资源时，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。</p>
+<p>具体实现方式不再赘述，毕竟这种实现方式的问题很多，如：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、这把锁强依赖数据库的可用性，数据库是一个单点，一旦数据库挂掉，会导致业务系统不可用。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、这把锁没有失效时间，一旦解锁操作失败，就会导致锁记录一直在数据库中，其他线程无法再获得到锁。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、这把锁只能是非阻塞的，因为数据的insert操作，一旦插入失败就会直接报错。没有获得锁的线程并不会进入排队队列，要想再次获得锁就要再次触发获得锁操作。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、这把锁是非重入的，同一个线程在没有释放锁之前无法再次获得该锁。因为数据中数据已经存在了。</span><br></pre></td></tr></table></figure>
 
+<h4><span id="二-基于缓存实现分布式锁">二、基于缓存实现分布式锁</span></h4><p><strong>SETNX</strong></p>
+<p>Redis官方提供了两种方式来实现分布式锁，第一个最普通的实现方式，就是在 Redis 里使用 <code>SET key value [EX seconds] [PX milliseconds] NX</code> 创建一个 key，这样就算加锁。</p>
+<p>其中：</p>
 <ul>
-<li><a href="#一-nginx概要">一、Nginx概要</a><ul>
-<li><a href="#是什么">是什么：</a></li>
+<li><code>NX</code>：表示只有 <code>key</code> 不存在的时候才会设置成功，如果此时 redis 中存在这个 <code>key</code>，那么设置失败，返回 <code>nil</code>。</li>
+<li><code>EX seconds</code>：设置 <code>key</code> 的过期时间，精确到秒级。意思是 <code>seconds</code> 秒后锁自动释放，别人创建的时候如果发现已经有了就不能加锁了。</li>
+<li><code>PX milliseconds</code>：同样是设置 <code>key</code> 的过期时间，精确到毫秒级。</li>
 </ul>
-</li>
-<li><a href="#二-nginx详解">二、Nginx详解</a><ul>
-<li><a href="#正向代理和反向代理">正向代理和反向代理：</a></li>
-<li><a href="#常见负载均衡的算法">常见负载均衡的算法：</a></li>
-</ul>
-</li>
-<li><a href="#三-常见负载均衡框架对比">三、常见负载均衡框架对比</a><ul>
-<li><a href="#ribbon">Ribbon:</a></li>
-<li><a href="#lvs">LVS:</a></li>
-</ul>
-</li>
-</ul>
-<!-- tocstop -->
+<p>比如执行以下命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value PX 30000 NX</span><br></pre></td></tr></table></figure>
 
-<h4><span id="一-nginx概要">一、Nginx概要</span></h4><h6><span id="是什么">是什么：</span></h6><p>Nginx俄罗斯的工程师Igor Sysoev用C语言开发出来的轻量级高并发服务器。基于 REST 架构风格，以统一资源描</p>
-<p>述符（Uniform Resources Identifier）URI 或者统一资源定位符（Uniform Resources Locator）URL 作为沟通</p>
-<p>依据，通过 HTTP 协议提供各种网络服务。Nginx可以做的事情有：</p>
-<p>1.web服务器</p>
-<p>2.负载均衡（反向代理）</p>
-<p>3.web cache (web缓存)</p>
-<p>优点有，</p>
-<p>1.高并发。静态小文件</p>
-<p>2.占用资源少。2万并发、10个线程，内存消耗几百M。</p>
-<p>3.功能种类比较多。web,cache,proxy。每一个功能都不是特别强。</p>
-<p>4.支持epoll模型，使得nginx可以支持高并发。</p>
-<p>5.nginx 配合动态服务和Apache有区别。（FASTCGI 接口）</p>
-<p>6.利用nginx可以对IP限速，可以限制连接数。</p>
-<p>7.配置简单，更灵活。</p>
-<p>应用场景有：</p>
-<p>1.静态服务器。（图片，视频服务）另一个lighttpd。并发几万，html，js，css，flv，jpg，gif等。</p>
-<p>2.动态服务，nginx——fastcgi 的方式运行PHP，jsp。（PHP并发在500-1500，MySQL 并发在300-1500）。</p>
-<p>3.反向代理，负载均衡。日pv2000W以下，都可以直接用nginx做代理。</p>
-<p>4.缓存服务。类似 SQUID,VARNISH。</p>
-<p>Nginx 和Apache相比，它作为 Web 服务器一直为 Rambler Media 提供出色而又稳定的服务。然后又代码开源，并且赋予自由软件许可证。Apache不支持高并发但是Nginx支持高并发，Nginx配置简单，又是轻量级的，大多数人将Nginx 可以作为反向代理进行负载均衡的实现。</p>
-<h4><span id="二-nginx详解">二、Nginx详解</span></h4><h6><span id="正向代理和反向代理">正向代理和反向代理：</span></h6><p>​    服务器代理可以理解为设计模式中的代理模式，就是一个代表一个渠道，可能提供了增强功能。涉及到两个角色一个是被代理角色，一个是目标角色。</p>
-<p>​    理解反向代理，首先要了解什么是正向代理，正向代理代理的事客户端，它的特点是：</p>
-<p>1.客户端非常明确要访问的服务器地址；</p>
-<p>2.服务器只清楚请求来自哪个代理服务器，而不清楚来自哪个具体的客户端；</p>
-<p>3.正向代理模式对于服务器来说屏蔽或者隐藏了真实客户端信息。</p>
-<p>而且正向代理可能还会要求客户端做过多的设置，如设置需要访问的代理服务器端口等，类似于VPN的配置。</p>
-<p>总结来说：正向代理，”它代理的是客户端”，是一个位于客户端和原始服务器（Origin Server）之间的服务器，为</p>
-<p>了从原始服务器取得内容，客户端向代理发送一个请求并指定目标（原始服务器）。然后代理向原始服务器转交请</p>
-<p>求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。它的用途有：访问原来无</p>
-<p>法访问的资源，如 Google。可以做缓存，加速访问资源。对客户端访问授权，上网进行认证。代理可以记录用户</p>
-<p>访问记录（上网行为管理），对外隐藏用户信息。</p>
-<p><strong>反向代理：</strong></p>
-<p>​    了解了正向代理之后，我们可以描述反向代理代理的是服务器。比如在目前分布式部署横行的今天，某讯多台</p>
-<p>分布式服务器不适合每台都面对客户端来访问，那么在假设反向代理服务器后，多个客户端给服务器发送的请求，</p>
-<p>Nginx 服务器接收到之后，按照一定的规则分发给了后端的业务处理服务器进行处理了。它的作用是：</p>
-<p>1.对外都是透明的，访问者并不知道自己访问的是一个代理。因为客户端不需要任何配置就可以访问。</p>
-<p>2.隐藏了服务器信息，客户端直接对接的是代理服务器。</p>
-<p>3.保证内网的安全，通常将反向代理作为公网访问地址，Web 服务器是内网。</p>
-<p>4.负载均衡，通过反向代理服务器来优化网站的负载。</p>
-<p>它们之间的区别可以用一张图说明：</p>
-<p><img src="/images/%E6%AD%A3%E5%8F%8D%E4%BB%A3%E7%90%86.jpeg" alt="正反代理 "></p>
-<p>图解：在正向代理中，Proxy 和 Client 同属于一个 LAN（图中方框内），隐藏了客户端信息。在反向代理中，</p>
-<p>Proxy 和 Server 同属于一个 LAN（图中方框内），隐藏了服务端信息。实际上，Proxy 在两种代理中做的事情都</p>
-<p>是替服务器代为收发请求和响应，不过从结构上看正好左右互换了一下，所以把后出现的那种代理方式称为反向代</p>
-<p>理了。</p>
-<h6><span id="常见负载均衡的算法">常见负载均衡的算法：</span></h6><p>​    刚才我提到，反向代理服务器需要根据不同的算法把客户端的请求分发到各服务器，那么它具体有哪些负载均</p>
-<p>衡算法呢。根据不用的项目应用场景，分发的规则是可以控制的。这里提到的客户端发送的、Nginx 反向代理服务</p>
-<p>器接收到的请求数量，就是我们说的负载量。请求数量按照一定的规则进行分发，到不同的服务器处理的规则，就</p>
-<p>是一种均衡规则。</p>
-<p>​    负载均衡在实际项目操作过程中，有<strong>硬件负载均衡</strong>和<strong>软件负载均衡</strong>两种，硬件负载均衡也称为硬负载，如 F5 负</p>
-<p>载均衡，相对造价昂贵成本较高；适合土豪企业或者服务器不多的小企业，它的好处是数据的稳定性安全性等等有</p>
-<p>非常好的保障。但是更多的企业考虑到成本的原因会选择使用软件负载均衡。</p>
-<p>Nginx 支持的负载均衡调度算法方式如下：</p>
-<p><strong>1.weight 轮询（默认）：</strong></p>
-<p>​        接收到的请求按照顺序逐一分配到不同的后端服务器，即使在使用过程中，某一台后端服务器宕机，Nginx会</p>
-<p>自动将该服务器剔除出队列，请求受理情况不会受到任何影响。 这种方式下，可以给不同的后端服务器设置一个</p>
-<p>权重值(weight)，用于调整不同的服务器上请求的分配率；权重数据越大，被分配到请求的几率越大；该权重值，</p>
-<p>主要是针对实际工作环境中不同的后端服务器硬件配置进行调整的。</p>
-<p><strong>2.ip_hash:</strong></p>
-<p>​        源地址哈希算法的思想是根据获取客户端的IP地址，通过哈希函数计算得到的一个数值，用该数值对服务器列</p>
-<p>表的大小进行取模运算，得到的结果便是客服端要访问服务器的序号。采用源地址哈希法进行负载均衡，同一IP地</p>
-<p>址的客户端，当后端服务器列表不变时，它每次都会映射到同一台后端服务器进行访问；这样就解决了session共</p>
-<p>享的问题。</p>
-<p><strong>3.fair:</strong></p>
-<p>​        比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均</p>
-<p>衡，也就是根据后端服务器的响应时间 来分配请求，响应时间短的优先分配。Nginx本身不支持fair，他需要和第</p>
-<p>三方插件配合使用，如果需要这种调度算法，则必须安装<strong>upstream_fair模块</strong>。</p>
-<p><strong>4.url_hash:</strong></p>
-<p>​        按访问的URL的哈希结果来分配请求，使每个URL定向到一台后端服务器，可以进一步提高后端缓存服务器的</p>
-<p>效率。Nginx本身不支持url_hash，如果需要这种调度算法，则必须安装Nginx的hash软件包。</p>
-<h4><span id="三-常见负载均衡框架对比">三、常见负载均衡框架对比</span></h4><h6><span id="ribbon">Ribbon:</span></h6><p>​    Ribbon 是从 eureka 注册中心服务器端上获取服务注册信息列表，缓存到本地，然后在本地实现轮询负载均衡</p>
-<p>策略。即在客户端实现负载均衡。Ribbon 适合与在微服务中 RPC 远程调用实现本地服务负载均衡，比如 </p>
-<p>Dubbo、SpringCloud 中都是采用本地负载均衡。</p>
-<h6><span id="lvs">LVS:</span></h6><p>​    。。。</p>
+<p>释放锁就是删除 key ，但是一般可以用 <code>lua</code> 脚本删除，判断 value 一样才删除：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除锁的时候，找到 key 对应的 value，跟自己传过去的 value 做比较，如果是一样的才删除。</span></span><br><span class="line"><span class="keyword">if</span> redis.call(<span class="string">"get"</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>] <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">"del"</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>​    但是这种简单的分布式锁存在一些问题。因为如果是普通的 Redis 单实例，那就是单点故障。或者是 Redis 普通主从，那 Redis 主从异步复制，如果主节点挂了（key 就没有了），key 还没同步到从节点，此时从节点切换为主节点，别人就可以 set key，从而拿到锁。</p>
+<p>所以Redis官方也提供了另外一种实现方式。</p>
+<p><strong>RedLock 算法</strong>这个分布式锁有 3 个重要的考量点：</p>
+<ul>
+<li>互斥（只能有一个客户端获取锁）</li>
+<li>不能死锁</li>
+<li>容错（只要大部分 Redis 节点创建了这把锁就可以）</li>
+</ul>
+<p>这个场景是假设有一个 Redis cluster，有 5 个 Redis master 实例。然后执行如下步骤获取一把锁：</p>
+<ol>
+<li>获取当前时间戳，单位是毫秒；</li>
+<li>跟上面类似，轮流尝试在每个 master 节点上创建锁，超时时间较短，一般就几十毫秒（客户端为了获取锁而使用的超时时间比自动释放锁的总时间要小。例如，如果自动释放时间是 10 秒，那么超时时间可能在 <code>5~50</code> 毫秒范围内）；</li>
+<li>尝试在<strong>大多数节点</strong>上建立一个锁，比如 5 个节点就要求是 3 个节点 <code>n / 2 + 1</code> ；</li>
+<li>客户端计算建立好锁的时间，如果建立锁的时间小于超时时间，就算建立成功了；</li>
+<li>要是锁建立失败了，那么就依次之前建立过的锁删除；</li>
+<li>只要别人建立了一把分布式锁，你就得<strong>不断轮询去尝试获取锁</strong>。</li>
+</ol>
+<h4><span id="三-基于zookeeper实现分布式锁">三、基于Zookeeper实现分布式锁</span></h4><p>基于zookeeper临时有序节点可以实现的分布式锁。</p>
+<p>大致思想即为：每个客户端对某个方法加锁时，在zookeeper上的与该方法对应的指定节点的目录下，生成一个唯一的瞬时有序节点。 判断是否获取锁的方式很简单，只需要判断有序节点中序号最小的一个。 当释放锁的时候，只需将这个瞬时节点删除即可。同时，其可以避免服务宕机导致的锁无法释放，而产生的死锁问题。</p>
+<p> zk 分布式锁，其实可以做的比较简单，就是某个节点尝试创建临时 znode，此时创建成功了就获取了这个锁；这个时候别的客户端来创建锁会失败，只能<strong>注册个监听器</strong>监听这个锁。释放锁就是删除这个 znode，一旦释放掉就会通知客户端，然后有一个等待着的客户端就可以再次重新加锁。</p>
+<p>来看下Zookeeper能不能解决前面提到的问题。</p>
+<ul>
+<li>锁无法释放？使用Zookeeper可以有效的解决锁无法释放的问题，因为在创建锁的时候，客户端会在ZK中创建一个临时节点，一旦客户端获取到锁之后突然挂掉（Session连接断开），那么这个临时节点就会自动删除掉。其他客户端就可以再次获得锁。</li>
+<li>非阻塞锁？使用Zookeeper可以实现阻塞的锁，客户端可以通过在ZK中创建顺序节点，并且在节点上绑定监听器，一旦节点有变化，Zookeeper会通知客户端，客户端可以检查自己创建的节点是不是当前所有节点中序号最小的，如果是，那么自己就获取到锁，便可以执行业务逻辑了。</li>
+<li>不可重入？使用Zookeeper也可以有效的解决不可重入的问题，客户端在创建节点的时候，把当前客户端的主机信息和线程信息直接写入到节点中，下次想要获取锁的时候和当前最小的节点中的数据比对一下就可以了。如果和自己的信息一样，那么自己直接获取到锁，如果不一样就再创建一个临时的顺序节点，参与排队。</li>
+<li>单点问题？使用Zookeeper可以有效的解决单点问题，ZK是集群部署的，只要集群中有半数以上的机器存活，就可以对外提供服务。</li>
+</ul>
+<p>可以直接使用zookeeper第三方库<a href="https://curator.apache.org/" target="_blank" rel="noopener">Curator</a>客户端，这个客户端中封装了一个可重入的锁服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> interProcessMutex.acquire(timeout, unit);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">unlock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        interProcessMutex.release();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        executorService.schedule(<span class="keyword">new</span> Cleaner(client, path), delayTimeForClean, TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Curator提供的InterProcessMutex是分布式锁的实现。acquire方法用户获取锁，release方法用于释放锁。</p>
+<p>使用ZK实现的分布式锁好像完全符合了本文开头我们对一个分布式锁的所有期望。但是，其实并不是，Zookeeper实现的分布式锁其实存在一个缺点，那就是性能上可能并没有缓存服务那么高。因为每次在创建锁和释放锁的过程中，都要动态创建、销毁瞬时节点来实现锁功能。ZK中创建和删除节点只能通过Leader服务器来执行，然后将数据同不到所有的Follower机器上。</p>
+<p><strong>其实，使用Zookeeper也有可能带来并发问题，只是并不常见而已。考虑这样的情况，由于网络抖动，客户端可ZK集群的session连接断了，那么zk以为客户端挂了，就会删除临时节点，这时候其他客户端就可以获取到分布式锁了。就可能产生并发问题。这个问题不常见是因为zk有重试机制，一旦zk集群检测不到客户端的心跳，就会重试，Curator客户端支持多种重试策略。多次重试之后还不行的话才会删除临时节点。（所以，选择一个合适的重试策略也比较重要，要在锁的粒度和并发之间找一个平衡。）</strong></p>
+<h4><span id="四-三种分布式锁的异同比较">四、三种分布式锁的异同比较</span></h4><h3><span id="三种方案的比较">三种方案的比较</span></h3><p>上面几种方式，哪种方式都无法做到完美。就像CAP一样，在复杂性、可靠性、性能等方面无法同时满足，所以，根据不同的应用场景选择最适合自己的才是王道。</p>
+<h4><span id="从理解的难易程度角度从低到高">从理解的难易程度角度（从低到高）</span></h4><p>数据库 &gt; 缓存 &gt; Zookeeper</p>
+<h4><span id="从实现的复杂性角度从低到高">从实现的复杂性角度（从低到高）</span></h4><p>Zookeeper &gt;= 缓存 &gt; 数据库</p>
+<h4><span id="从性能角度从高到低">从性能角度（从高到低）</span></h4><p>缓存 &gt; Zookeeper &gt;= 数据库</p>
+<h4><span id="从可靠性角度从高到低">从可靠性角度（从高到低）</span></h4><p>Zookeeper &gt; 缓存 &gt; 数据库</p>
 
       
 
@@ -337,18 +301,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/04/12/Spring-Aop%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Spring-Aop详解
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/04/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">设计模式-策略模式</div>
+    <a href="/2021/04/26/Redis-%E9%AB%98%E5%8F%AF%E7%94%A8%E4%BF%9D%E8%AF%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis-高可用保证</div>
       <i class="icon-circle-right"></i>
     </a>
   
