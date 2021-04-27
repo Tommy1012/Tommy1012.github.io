@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Tommy的博客</title>
+  <title>分布式 -   zookeeper | Tommy的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tommy的博客">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="​        Zookeeper是一个分布式协调服务，可以用于元数据管理、分布式锁、分布式协调、发布订阅、服务命名等等。拥有一定的数据存储和查询能力，可以让我们在现在都是分布式部署的应用之间“传递”数据，其次 ZK 支持的回调通知，让应用可以在一些业务场景中感知到数据的变化并及时作出相应的反应。最后，ZK 本身也支持集群部署具有高可用的特点，是一个可靠的第三方中间件。这篇文章主要通过以下几个方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式 -   zookeeper">
+<meta property="og:url" content="http://yoursite.com/2021/04/28/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0zookeeper/index.html">
 <meta property="og:site_name" content="Tommy的博客">
+<meta property="og:description" content="​        Zookeeper是一个分布式协调服务，可以用于元数据管理、分布式锁、分布式协调、发布订阅、服务命名等等。拥有一定的数据存储和查询能力，可以让我们在现在都是分布式部署的应用之间“传递”数据，其次 ZK 支持的回调通知，让应用可以在一些业务场景中感知到数据的变化并及时作出相应的反应。最后，ZK 本身也支持集群部署具有高可用的特点，是一个可靠的第三方中间件。这篇文章主要通过以下几个方">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/zkznode.jpeg">
+<meta property="article:published_time" content="2021-04-28T03:33:40.000Z">
+<meta property="article:modified_time" content="2021-04-27T13:04:37.068Z">
 <meta property="article:author" content="tommy">
+<meta property="article:tag" content="分布式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/zkznode.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="Tommy的博客" type="application/atom+xml">
   
@@ -147,215 +154,218 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-分布式 -   zookeeper" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式 -   zookeeper
+    </h1>
+  
+
+        
+        <a href="/2021/04/28/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0zookeeper/" class="archive-article-date">
+  	<time datetime="2021-04-28T03:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
+</a>
+        
+      </header>
     
+    <!-- 目录内容 -->
+
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+    <div id="toc-article" class="toc-article">
+        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+        <strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text">一、Zookeeper基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.1.</span> <span class="toc-text">znode</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.2.</span> <span class="toc-text">观察与通知</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.3.</span> <span class="toc-text">会话</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">1.0.4.</span> <span class="toc-text">zk的工作原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">2.</span> <span class="toc-text">二、Zookeeper集群与选举制度</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.1.</span> <span class="toc-text">Zookeeper 节点状态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.2.</span> <span class="toc-text">事务ID</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.3.</span> <span class="toc-text">Zookeeper 集群初始化启动时 Leader 选举</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">2.0.4.</span> <span class="toc-text">Zookeeper 集群运行期间 Leader 重新选</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#"><span class="toc-number">3.</span> <span class="toc-text">三、Zookeeper应用场景和实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.1.</span> <span class="toc-text">元数据管理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.3.</span> <span class="toc-text">分布式协调</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.4.</span> <span class="toc-text">发布订阅</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#"><span class="toc-number">3.0.5.</span> <span class="toc-text">命名服务</span></a></li></ol></li></ol></li></ol>
+         </div>
+   <script type="text/javascript">
+    function showToc(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:block");
+        show_toc_btn.setAttribute("style","display:none");
+        };
+    function showBtn(){
+        var toc_article = document.getElementById("toc-article");
+        var show_toc_btn = document.getElementById("show-toc-btn");
+        toc_article.setAttribute("style","display:none");
+        show_toc_btn.setAttribute("style","display:block");
+        };
+   </script>
+      
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>​        Zookeeper是一个分布式协调服务，可以用于元数据管理、分布式锁、分布式协调、发布订阅、服务命名等等。拥有一定的数据存储和查询能力，可以让我们在现在都是分布式部署的应用之间“传递”数据，其次 ZK 支持的回调通知，让应用可以在一些业务场景中感知到数据的变化并及时作出相应的反应。最后，ZK 本身也支持集群部署具有高可用的特点，是一个可靠的第三方中间件。这篇文章主要通过以下几个方面介绍Zookeeper：</p>
+<a id="more"></a>
+
+<ul>
+<li><p>Zookeeper基本概念</p>
+</li>
+<li><p>Zookeeper集群与选举制度</p>
+</li>
+<li><p>Zookeeper应用场景和实现原理</p>
+</li>
+</ul>
+<h4><span id="一-zookeeper基本概念">一、Zookeeper基本概念</span></h4><p>   ZooKeeper并不直接暴露分布式服务所需要的原语及原语的调用方法。换句话说：ZooKeeper以类似文件系统的方式存储数据，暴漏出调用这些数据的API。让开发者通过ZooKeeper的机制和API，自己来实现分布式相关原语。那么想要的在分布式协调中熟练运用zookeeper，我们就要了解ZooKeeper的特性及相关概念，另外熟悉它给我们提供了哪些API。</p>
+<h6><span id="znode">znode</span></h6><p>在ZooKeeper中，信息数据被保存在一个个数据节点上，这些节点被称为znode。它采用了类似文件系统的层级树状结构进行管理。如下图所示：</p>
+<p><img src="/images/zkznode.jpeg" alt="zkznode "></p>
+<p>根节点/包含4个子节点，其中三个拥有下一级节点。有的叶子节点存储了信息。</p>
+<p>节点上没有存储数据，也有着重要的含义。比如在主从模式中，当/master节点没有数据时，代表分布式应用的主节点还没有选举出来。</p>
+<p><strong>znode节点存储的数据为字节数组。存储数据的格式zookeeper不做限制，也不提供解析，需要应用自己实现。</strong></p>
+<p>实际上图就是主从模式存储数据的示例，这里先简单讲解：</p>
+<p>/master，存储了当前主节点的信息<br>/workers，下面的每个子znode代表一个从节点，子znode上存储的数据，如“foo.com:2181”，代表从节点的信息。<br>/tasks，下面的每个子znode代表一个任务，子znode上存储的信息如“run cmd”，代表该内务内容<br>/assign，下面每个子znode代表一个从节点的任务集合。如/assign/worker-1，代表worker-1这个从节点的任务集合。/assign/worker-1下的每个子znode代表分配给worker-1的一个任务。</p>
+<p><strong><u>Znode的类型</u></strong><br>Znode被分为<strong>持久（persistent）节点，顺序（sequential）节点和临时（ephemeral）节点</strong>。</p>
+<p><strong>持久节点</strong>  - 即使在创建该特定znode的客户端断开连接后，持久节点仍然存在。<strong>默认情况下，除非另有说明，否则所有znode都是持久的。</strong></p>
+<p><strong>临时节点</strong> - 客户端活跃时，临时节点就是有效的。当客户端与ZooKeeper集合断开连接时，临时节点会自动删除。这里的断开链接指的是会话失效。因此，只有临时节点不允许有子节点。如果临时节点被删除，则下一个合适的节点将填充其位置。临时节点在leader选举中起着重要作用。</p>
+<p><strong>顺序节点</strong> - <strong>顺序节点可以是持久的或临时的</strong>。当一个新的znode被创建为一个顺序节点时，ZooKeeper通过将10位的序列号附加到原始名称来设置znode的路径。例如，如果将具有路径 /myapp 的znode创建为顺序节点，则ZooKeeper会将路径更改为 /myapp0000000001 ，并将下一个序列号设置为0000000002。如果两个顺序节点是同时创建的，那么ZooKeeper不会对每个znode使用相同的数字。<strong>顺序节点在锁定和同步中起重要作用。</strong></p>
+<p>znode支持的操作及暴露的API如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//创建一个名为/path的znode，数据为data。</span><br><span class="line">create /path data</span><br><span class="line">//删除名为/path的znode。</span><br><span class="line">delete /path</span><br><span class="line">//检查是否存在名为/path的znode</span><br><span class="line">exists /path</span><br><span class="line">//设置名为/path的znode的数据为data</span><br><span class="line">setData /path data</span><br><span class="line">//返回名为/path的znode的数据</span><br><span class="line">getData /path</span><br><span class="line">//返回所有/path节点的所有子节点列表</span><br><span class="line">getChildren /path</span><br></pre></td></tr></table></figure>
+<h6><span id="观察与通知">观察与通知</span></h6><p>   监视是一种简单的机制，使客户端收到关于ZooKeeper集合中的更改的通知。客户端可以在读取特定znode时设置Watches。Watches会向注册的客户端发送任何znode（客户端注册表）更改的通知。</p>
+<p>  Znode更改是与znode相关的数据的修改或znode的子项中的更改。只触发一次watches。如果客户端想要再次通知，则必须通过另一个读取操作来完成。当连接会话过期时，客户端将与服务器断开连接，相关的watches也将被删除。当该znode发生变化时，会触发zookeeper的通知，客户端收到通知后进行业务处理。观察点触发后立即失效。所以一旦观察点触发，需要再次设置新的观察点。</p>
+<p>Zookeeper只能保证最终的一致性，而无法保证强一致性。</p>
+<p>zookeeper可以定义不同的观察类型。例如观察znode数据变化，观察znode子节点变化，观察znode创建或者删除。</p>
+<h6><span id="会话">会话</span></h6><p>客户端对zookeeper集群发送任何请求前，需要和zookeeper集群建立会话。客户端提交给zookeeper的所有操作均关联在一个会话上。当一个会话因某种原因终止时，会话期间创建的临时节点将会消失。而当当前服务器的问题，无法继续通信时，会话将被透明的转移到另外一台zookeeper集群的服务器上。</p>
+<p>会话提供了顺序保障。同一个会话中的请求以FIFO顺序执行。并发会话的FIFO顺序无法保证。</p>
+<p>客户端以特定的时间间隔发送<strong>心跳</strong>以保持会话有效。如果ZooKeeper集合在超过服务器开启时指定的期间（会话超时）都没有从客户端接收到心跳，则它会判定客户端死机。</p>
+<p>会话超时通常以毫秒为单位。当会话由于任何原因结束时，在该会话期间创建的临时节点也会被删除。</p>
+<p>会话状态有：</p>
+<p>connecting、connected、closed、not_connected</p>
+<p>创建会话时，需要设置会话超时这个重要的参数。如果经过时间t后服务接受不到这个会话的任何消息，服务就会声明会话过期。客户端侧，t/3时间未收到任何消息，客户端向服务器发送心跳消息，2t/3时间后，客户端开始寻找其他服务器。此时他有t/3的时间去寻找，找不到的话，会话失效。</p>
+<p>重连服务器时，只有更新大于客户端的服务器才能被连接，以免连接到落后的服务器。zookeeper中通过更新建立的顺序，分配事务标识符。只有服务器的事物标识符大于客户端携带的标识符时，才可连接。</p>
+<h6><span id="zk的工作原理">zk的工作原理</span></h6><p>Zookeeper的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。</p>
+<p>为了保证事务的顺序一致性，zookeeper采用了递增的事务id号（zxid）来标识事务。所有的提议（proposal）都在被提出的时候加上了zxid。实现中zxid是一个64位的数字，它高32位是epoch用来标识leader关系是否改变，每次一个leader被选出来，它都会有一个新的epoch，标识当前属于那个leader的统治时期。低32位用于递增计数。</p>
+<h4><span id="二-zookeeper集群与选举制度">二、Zookeeper集群与选举制度</span></h4><p>Leader 选举分为 Zookeeper 集群初始化启动时选举和 Zookeeper 集群运行期间 Leader 重新选举两种情况</p>
+<h6><span id="zookeeper-节点状态">Zookeeper 节点状态</span></h6><ul>
+<li>LOOKING：寻找 Leader 状态，处于该状态需要进入选举流程</li>
+<li>LEADING：领导者状态，处于该状态的节点说明是角色已经是 Leader</li>
+<li>FOLLOWING：跟随者状态，表示 Leader 已经选举出来，当前节点角色是 follower</li>
+<li>OBSERVER：观察者状态，表明当前节点角色是 observer</li>
+</ul>
+<h6><span id="事务id">事务ID</span></h6><p>ZooKeeper 状态的每次变化都接收一个 ZXID（ZooKeeper 事务 id）形式的标记。ZXID 是一个 64 位的数字，由 Leader 统一分配，全局唯一，不断递增。ZXID 展示了所有的ZooKeeper 的变更顺序。每次变更会有一个唯一的 zxid，如果 zxid1 小于 zxid2 说明 zxid1 在 zxid2 之前发生。</p>
+<h6><span id="zookeeper-集群初始化启动时-leader-选举">Zookeeper 集群初始化启动时 Leader 选举</span></h6><p>若进行 Leader 选举，则至少需要两台机器，这里选取 3 台机器组成的服务器集群为例。</p>
+<p>在集群初始化阶段，当有一台服务器 ZK1 启动时，其单独无法进行和完成 Leader 选举，当第二台服务器 ZK2 启动时，此时两台机器可以相互通信，每台机器都试图找到 Leader，于是进入 Leader 选举过程。选举过程开始，过程如下：　　</p>
+<p>(1) 每个Server发出一个投票。由于是初始情况，ZK1 和 ZK2 都会将自己作为 Leader 服务器来进行投票，每次投票会包含所推举的服务器的 myid 和 ZXID，使用(myid, ZXID)来表示，此时 ZK1 的投票为(1, 0)，ZK2 的投票为(2, 0)，然后各自将这个投票发给集群中其他机器。　　</p>
+<p>(2) 接受来自各个服务器的投票。集群的每个服务器收到投票后，首先判断该投票的有效性，如检查是否是本轮投票、是否来自 LOOKING 状态的服务器。　　</p>
+<p>(3) 处理投票。针对每一个投票，服务器都需要将别人的投票和自己的投票进行比较，规则如下　　　　</p>
+<ul>
+<li><p>优先检查 ZXID。ZXID 比较大的服务器优先作为 Leader。</p>
+</li>
+<li><p>如果 ZXID 相同，那么就比较 myid。myid 较大的服务器作为Leader服务器。</p>
+<p>对于 ZK1 而言，它的投票是(1, 0)，接收 ZK2 的投票为(2, 0)，首先会比较两者的 ZXID，均为 0，再比较 myid，此时 ZK2 的 myid 最大，于是 ZK2 胜。ZK1 更新自己的投票为(2, 0)，并将投票重新发送给 ZK2。　　</p>
+</li>
+</ul>
+<p>(4) 统计投票。每次投票后，服务器都会统计投票信息，判断是否已经有过半机器接受到相同的投票信息，对于 ZK1、ZK2 而言，都统计出集群中已经有两台机器接受了(2, 0)的投票信息，此时便认为已经选出 ZK2 作为Leader。　　</p>
+<p>(5) 改变服务器状态。一旦确定了 Leader，每个服务器就会更新自己的状态，如果是Follower，那么就变更为 FOLLOWING，如果是 Leader，就变更为 LEADING。当新的 Zookeeper 节点 ZK3 启动时，发现已经有 Leader 了，不再选举，直接将直接的状态从 LOOKING 改为 FOLLOWING。</p>
+<h6><span id="zookeeper-集群运行期间-leader-重新选">Zookeeper 集群运行期间 Leader 重新选</span></h6><p>在 Zookeeper 运行期间，如果 Leader 节点挂了，那么整个 Zookeeper 集群将暂停对外服务，进入新一轮Leader选举。假设正在运行的有 ZK1、ZK2、ZK3 三台服务器，当前 Leader 是 ZK2，若某一时刻 Leader 挂了，此时便开始 Leader 选举。</p>
+<p>(1) 变更状态。Leader 挂后，余下的非 Observer 服务器都会讲自己的服务器状态变更为 LOOKING，然后开始进入 Leader 选举过程。　　</p>
+<p>(2) 每个Server会发出一个投票。在运行期间，每个服务器上的 ZXID 可能不同，此时假定 ZK1 的 ZXID 为 124，ZK3 的 ZXID 为 123；在第一轮投票中，ZK1 和 ZK3 都会投自己，产生投票(1, 124)，(3, 123)，然后各自将投票发送给集群中所有机器。　　</p>
+<p>(3) 接收来自各个服务器的投票。与启动时过程相同。　　</p>
+<p>(4) 处理投票。与启动时过程相同，由于 ZK1 事务 ID 大，ZK1 将会成为 Leader。　　</p>
+<p>(5) 统计投票。与启动时过程相同。　　</p>
+<p>(6) 改变服务器的状态。与启动时过程相同。</p>
+<p>leader选举是一个复杂的过程，但 ZooKeeper 服务使它非常简单。让我们在下一章中继续学习 ZooKeepe r 安装，以用于开发目的。</p>
+<h4><span id="三-zookeeper应用场景和实现原理">三、Zookeeper应用场景和实现原理</span></h4><h6><span id="元数据管理">元数据管理</span></h6><p>我们都知道，Kafka在运行时会依赖一个Zookeeper的集群。Kafka通过Zookeeper来管理集群的相关元数据，并通过Zookeeper进行Leader选举。</p>
+<ul>
+<li>Tips: 但是即将发布的Kafka 2.8版本中，Zookeeper已经不是一个必需的组件了。这块我暂时还没有时间去细看，不过我估计可能会跟RocketMQ中处理的方式差不多，将其集群的元数据放到Kafka本身来处理。</li>
+</ul>
+<h6><span id="分布式锁">分布式锁</span></h6><p>基于Zookeeper的分布式锁其实流程很简单。首先我们需要知道加分布式锁的本质是什么?</p>
+<ul>
+<li>答案是创建临时顺序节点</li>
+</ul>
+<p>当某个客户端加锁成功之后，实际上则是成功的在Zookeeper上创建了临时顺序节点。我们知道，分布式锁能够使同一时间只能有一个能够访问某种资源。那这就必然会涉及到分布式锁的竞争，那问题来了，当前这个客户端是如何感知抢到了锁呢?</p>
+<p>其实在客户端侧会有一定的逻辑，假设加锁的key为/locks/modify_users。</p>
+<p>首先，客户端会发起加锁请求，然后会在Zookeeper上创建持久节点locks，然后会在该节点下创建临时顺序节点。临时顺序节点的创建示例。</p>
+<p>当客户端成功创建了节点之后，还会获取其同级的所有节点。也就是上图中的所有modify_users000000000x的节点。</p>
+<p>此时客户端会根据10位的自增序号去判断，当前自己创建的节点是否是所有的节点中最小的那个，如果是最小的则自己获取到了分布式锁。</p>
+<p>你可能会问，那如果我不是最小的怎么办呢?而且我的节点都已经创建了。如果不是最小的，说明当前客户端并没有抢到锁。按照我们的认知，如果没有竞争到分布式锁，则会等待。等待的底层都做了什么?我们用实际例子来捋一遍。</p>
+<p>假设Zookeeper中已经有了节点。</p>
+<p>例如当前客户端是B创建的节点是modify_users0000000002，那么很明显B没有抢到锁，因为已经有比它还要小的由客户端A创建的节点modify_users0000000001。</p>
+<p>此时客户端B会对节点modify_users0000000001注册一个监听器，对于该节点的任意更新都将触发对应的操作。</p>
+<p>当其被删除之后，就会唤醒客户端B的线程，此时客户端B会再次进行判断自己是否是序号最小的一个节点，此时modify_users0000000002明显是最小的节点，故客户端B加锁成功。</p>
+<h6><span id="分布式协调">分布式协调</span></h6><p>我们都知道，在很多场景下要保证一致性都会采用经典的2PC(两阶段提交)，例如MySQL中Redo Log和Binlog提交的数据一致性保障就是采用的2PC，详情可以看基于Redo Log和Undo Log的MySQL崩溃恢复流程。</p>
+<p>在2PC中存在两种角色，分别是参与者(Participant)和协调者(Coordinator)，协调者负责统一的调度所有分布式节点的执行逻辑。具体协调啥呢?举个例子。</p>
+<p>例如在2PC的Commit阶段，两个参与者A、B，A的commit操作成功了，但不幸的是B失败了。此时协调者就需要向A发送Rollback操作。Zookeeper大概就是这样一个角色。</p>
+<h6><span id="发布订阅">发布订阅</span></h6><p>由于Zookeeper自带了监听器(Watch)的功能，所以发布订阅也顺理成章的成为了Zookeeper的应用之一。例如在某个配置节点上注册了监听器，那么该配置一旦发布变更，对应的服务就能实时的感知到配置更改，从而达到配置的动态更新的目的。</p>
+<h6><span id="命名服务">命名服务</span></h6><p>用大白话来说，命名服务主要有两种。</p>
+<ul>
+<li>单纯的利用Zookeeper的文件系统特性，存储结构化的文件</li>
+<li>利用文件特性和顺序节点的特性，来生成全局的唯一标识</li>
+</ul>
+<p>前者可以用于在系统之间共享某种业务上的特定资源，后者则可以用于实现分布式锁。</p>
+
+      
+
+      
+    </div>
+
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/09/JCF-%E4%BB%80%E4%B9%88%E6%98%AFMap/" class="archive-article-date">
-  	<time datetime="2020-04-09T15:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/09/JCF-%E4%BB%80%E4%B9%88%E6%98%AFMap/">JCF-什么是Map</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/" class="archive-article-date">
-  	<time datetime="2020-04-07T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/27/%E5%88%86%E5%B8%83%E5%BC%8F%20-%20%C2%A0%C2%A0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">分布式 -   分布式锁的实现方式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/07/JCF-%E4%BB%80%E4%B9%88%E6%98%AFSet/">JCF-什么是Set</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/05/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/" class="archive-article-date">
-  	<time datetime="2020-04-05T06:33:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/05/JCF-%E4%BB%80%E4%B9%88%E6%98%AFList/">JCF-什么是List</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  	<time datetime="2020-04-03T11:16:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/03/JCF%20-%20JAVA%E9%9B%86%E5%90%88%E6%A6%82%E8%BF%B0/">JCF - JAVA集合概述</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/01/Lambda%E4%B8%8EStream-API/" class="archive-article-date">
-  	<time datetime="2020-04-01T06:15:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/01/Lambda%E4%B8%8EStream-API/">Lambda与Stream-API</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -379,8 +389,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
